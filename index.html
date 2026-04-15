@@ -3,126 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PiK.PiK — Ultra Glossy</title>
-    <link rel="stylesheet" href="style.css">
+    <title>PiK.PiK — Pure Look</title>
+    <style>
+        :root {
+            --bg-color: #E30B5D; /* Твой фирменный цвет */
+            --accent: #BFFF00;   /* Салатовый */
+            --nav-bg: rgba(138, 6, 58, 0.95);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", sans-serif;
+            margin: 0; padding: 0;
+            padding-bottom: 120px; /* Большой отступ снизу */
+            overflow-x: hidden;
+        }
+
+        /* КОМПАКТНАЯ И БЕЗОПАСНАЯ ШАПКА */
+        .main-header {
+            padding: 50px 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Большой логотип, как ты хотела */
+        .site-logo {
+            width: 180px;
+            height: auto;
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.3));
+        }
+
+        .profile-circle {
+            position: absolute;
+            right: 20px;
+            top: 55px;
+            width: 38px; height: 38px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+
+        /* ЧЕТКАЯ ПОИСКОВАЯ СТРОКА */
+        .search-box { padding: 10px 20px; }
+        .search-input {
+            width: 100%; padding: 15px 20px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.1);
+            outline: none; box-sizing: border-box; font-size: 16px;
+            color: #fff;
+        }
+        .search-input::placeholder { color: rgba(255,255,255,0.7); }
+
+        /* ЧЕТКИЙ "ТРЕНД" ЗАГОЛОВОК */
+        .section-title { padding: 25px 25px 10px; font-weight: 700; font-size: 20px; letter-spacing: 1px;}
+
+        /* СЕТКА ФИЛЬМОВ (ОТСТУП СНИЗУ) */
+        .movie-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 15px; padding: 10px 20px;
+            margin-bottom: 20px; /* Отступ от навигации */
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px; padding: 12px;
+            text-align: center;
+        }
+
+        .poster-placeholder {
+            width: 100%; aspect-ratio: 2/3;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; margin-bottom: 12px;
+        }
+
+        .movie-title { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
+
+        .play-btn {
+            background: var(--accent); color: #000;
+            border: none; width: 100%; padding: 12px;
+            border-radius: 16px; font-weight: 800;
+            font-size: 12px; text-transform: uppercase;
+        }
+
+        /* БЕЗОПАСНАЯ И ЧЕТКАЯ НИЖНЯЯ НАВИГАЦИЯ */
+        .bottom-nav {
+            position: fixed; bottom: 0; width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(25px);
+            display: flex; justify-content: space-around;
+            padding: 15px 0 35px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 2000;
+        }
+
+        .nav-item { 
+            color: #fff; text-decoration: none; font-size: 11px; 
+            opacity: 0.5; display: flex; flex-direction: column; align-items: center; gap: 5px;
+        }
+
+        .nav-icon { font-size: 20px; }
+        .nav-item.active { color: var(--accent); opacity: 1; }
+
+    </style>
 </head>
 <body>
 
-<div id="side-menu" class="side-menu ultraglass">
-    <div class="menu-header">PiK.Menu</div>
-    <div class="menu-items">
-        <a href="#" class="menu-link glass-btn">
-            <svg class="menu-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-            Profile
-        </a>
-        <a href="#" class="menu-link glass-btn">
-            <svg class="menu-svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            Favorites
-        </a>
-        <a href="#" class="menu-link glass-btn">
-            <svg class="menu-svg" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L3.34 8.87c-.12.2-.07.47.12.61l2.03 1.58c-.04.3-.06.61-.06.94s.02.64.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 0 .44-.17 0 .47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.03-1.58zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
-            Settings
-        </a>
-        <a href="#" class="menu-link glass-btn">
-            <svg class="menu-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
-            Support
-        </a>
-    </div>
-</div>
-
-<div id="overlay" class="overlay"></div>
-
 <header class="main-header">
-    <div class="header-top">
-        <div class="burger-btn" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </div>
-        <div class="profile-circle ultraglass">
-            <svg class="header-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-        </div>
-    </div>
-    <div id="header-content" class="header-dynamic-content"></div>
+    <img src="978AC2CD-A8DC-4EC3-BAAD-002C6B62DF53.png" alt="PiK.PiK" class="site-logo">
+    <div class="profile-circle">👤</div>
 </header>
 
 <div class="search-box">
-    <input type="text" class="search-input ultraglass" placeholder="Search PiK.PiK movies...">
+    <input type="text" class="search-input" placeholder="Search your favorite movie...">
 </div>
 
 <div class="section-title">Trending Now</div>
 
 <div class="movie-grid">
-    <div class="movie-card ultraglass">
-        <img src="https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZno4H6bsGvY6.jpg" class="poster-img">
-        <div class="movie-info">
-            <h3>Inside Out 2</h3>
-            <button class="play-btn-pik" onclick="watchMovie('Inside Out 2')">Watch Now</button>
-        </div>
+    <div class="movie-card">
+        <div class="poster-placeholder">🎬</div>
+        <h3 class="movie-title">Inside Out 2</h3>
+        <button class="play-btn">WATCH NOW</button>
     </div>
-    <div class="movie-card ultraglass">
-        <img src="https://image.tmdb.org/t/p/w500/86goS1vS99Xp69V8R9Y6kyVYjg5.jpg" class="poster-img">
-        <div class="movie-info">
-            <h3>Deadpool 3</h3>
-            <button class="play-btn-pik" onclick="watchMovie('Deadpool 3')">Watch Now</button>
-        </div>
+    <div class="movie-card">
+        <div class="poster-placeholder">🎬</div>
+        <h3 class="movie-title">Deadpool 3</h3>
+        <button class="play-btn">WATCH NOW</button>
     </div>
 </div>
 
-<nav class="bottom-nav ultraglass">
+<nav class="bottom-nav">
     <a href="#" class="nav-item active">
-        <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span class="nav-icon">🏠</span>
         <span>Home</span>
     </a>
     <a href="#" class="nav-item">
-        <svg class="nav-svg" viewBox="0 0 24 24"><path d="M16.85 6.85l1.44 1.44-4.88 4.88-2.83-2.83L6.5 16.5l1.41 1.41 2.67-2.67 2.83 2.83 6.29-6.29 1.44 1.44V6.85h-4.24z"/></svg>
+        <span class="nav-icon">🔥</span>
         <span>Trends</span>
     </a>
     <a href="#" class="nav-item">
-        <svg class="nav-svg" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 10H8V4h12v8z"/></svg>
+        <span class="nav-icon">📚</span>
         <span>Library</span>
     </a>
 </nav>
-
-<script>
-    // ... тот же JS, что и в прошлом сообщении ...
-    const menu = document.getElementById('side-menu');
-    const overlay = document.getElementById('overlay');
-    const headerContent = document.getElementById('header-content');
-    let touchStart = 0;
-
-    function toggleMenu() { menu.classList.toggle('open'); overlay.classList.toggle('active'); }
-    overlay.onclick = toggleMenu;
-
-    window.addEventListener('touchstart', e => touchStart = e.touches[0].clientX);
-    window.addEventListener('touchend', e => {
-        let touchEnd = e.changedTouches[0].clientX;
-        if (touchEnd - touchStart > 100 && touchStart < 50) toggleMenu();
-        if (touchStart - touchEnd > 100) { menu.classList.remove('open'); overlay.classList.remove('active'); }
-    });
-
-    function updateHeader() {
-        const lastMovie = localStorage.getItem('lastWatched');
-        if (lastMovie) {
-            // Виджет тоже теперь "UltraGlass" черного цвета с салатовым прогрессом
-            headerContent.innerHTML = `
-                <div class="continue-widget ultraglass-black">
-                    <div class="widget-info">
-                        <span class="widget-label">Continue Watching</span>
-                        <h2 class="widget-title">${lastMovie}</h2>
-                        <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
-                    </div>
-                    <div class="widget-play-pik">▶</div>
-                </div>`;
-        } else {
-            headerContent.innerHTML = `
-                <div class="big-logo-container">
-                    <img src="978AC2CD-A8DC-4EC3-BAAD-002C6B62DF53.png" class="site-logo-big">
-                </div>`;
-        }
-    }
-
-    function watchMovie(title) { localStorage.setItem('lastWatched', title); updateHeader(); alert('PiK.PiK Player: ' + title); }
-    updateHeader();
-</script>
 
 </body>
 </html>
