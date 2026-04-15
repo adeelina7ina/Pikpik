@@ -1,18 +1,19 @@
 :root {
     --bg-color: #E30B5D; 
     --accent: #BFFF00;
+    --nav-bg: #9c073f; /* Темный цвет для контраста внизу */
 }
 
 body {
     background-color: var(--bg-color);
     color: #fff;
-    font-family: sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     margin: 0; padding: 0;
-    padding-bottom: 80px;
+    padding-bottom: 100px; /* Больше места под меню */
 }
 
 .main-header {
-    padding: 30px 20px 10px;
+    padding: 40px 20px 10px;
     display: flex;
     justify-content: center;
 }
@@ -23,22 +24,22 @@ body {
     align-items: center;
 }
 
-/* Настройка лого: Маленький и по центру */
 .site-logo {
-    width: 80px; /* Здесь мы сделали его маленьким */
+    width: 140px; 
     height: auto;
     display: block;
     margin: 0 auto;
 }
 
 .logo-sub {
-    font-size: 14px;
+    font-size: 15px;
     margin-top: 5px;
     opacity: 0.9;
+    font-weight: 500;
 }
 
 .ad-slot {
-    margin: 10px 20px; height: 50px;
+    margin: 15px 20px; height: 55px;
     border: 2px dashed var(--accent);
     border-radius: 15px; display: flex;
     align-items: center; justify-content: center;
@@ -49,9 +50,10 @@ body {
 
 .search-box { padding: 10px 20px; }
 .search-input {
-    width: 100%; padding: 12px; border-radius: 20px;
+    width: 100%; padding: 14px; border-radius: 25px;
     border: none; background: #fff; outline: none;
     box-sizing: border-box; font-size: 16px;
+    color: #000;
 }
 
 .movie-grid {
@@ -61,31 +63,51 @@ body {
 
 .movie-card {
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px; padding: 10px;
+    border-radius: 25px; padding: 12px;
     text-align: center;
 }
 
 .poster-placeholder {
     width: 100%; aspect-ratio: 3/4;
-    background: #111; border-radius: 15px;
-    margin-bottom: 8px; display: flex;
-    align-items: center; justify-content: center; font-size: 30px;
+    background: #111; border-radius: 20px;
+    margin-bottom: 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 35px;
 }
 
-.movie-info h3 { font-size: 13px; margin: 5px 0 10px; }
+.movie-info h3 { font-size: 14px; margin: 5px 0 12px; font-weight: 600; }
 
 .play-btn {
     background: var(--accent); color: #000;
-    border: none; width: 100%; padding: 10px;
-    border-radius: 15px; font-weight: bold;
+    border: none; width: 100%; padding: 12px;
+    border-radius: 18px; font-weight: bold;
 }
 
+/* ФИКС НИЖНЕЙ ПАНЕЛИ */
 .bottom-nav {
-    position: fixed; bottom: 0; width: 100%;
-    background: #d10a55;
-    display: flex; justify-content: space-around;
-    padding: 15px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: fixed; 
+    bottom: 0; 
+    width: 100%;
+    background: var(--nav-bg); /* Темный фон */
+    display: flex; 
+    justify-content: space-around;
+    padding: 20px 0 30px; /* Больше отступ снизу для удобства */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.2); /* Тень, чтобы не сливалось */
+    z-index: 1000;
 }
 
-.nav-item { color: #fff; text-decoration: none; font-size: 13px; opacity: 0.7; }
-.nav-item.active { color: var(--accent); font-weight: bold; opacity: 1; }
+.nav-item { 
+    color: #fff; 
+    text-decoration: none; 
+    font-size: 13px; 
+    opacity: 0.5; /* Неактивные кнопки чуть прозрачные */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-item.active { 
+    color: var(--accent); 
+    font-weight: bold; 
+    opacity: 1; /* Активная кнопка горит ярко */
+}
