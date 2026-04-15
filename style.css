@@ -1,113 +1,47 @@
-:root {
-    --bg-color: #E30B5D; 
-    --accent: #BFFF00;
-    --nav-bg: #9c073f; /* Темный цвет для контраста внизу */
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiK.PiK — Movies & Series</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-body {
-    background-color: var(--bg-color);
-    color: #fff;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    margin: 0; padding: 0;
-    padding-bottom: 100px; /* Больше места под меню */
-}
+<header class="main-header">
+    <div class="logo-wrapper">
+        <img src="978AC2CD-A8DC-4EC3-BAAD-002C6B62DF53.png" alt="PiK.PiK" class="site-logo">
+        </div>
+</header>
 
-.main-header {
-    padding: 40px 20px 10px;
-    display: flex;
-    justify-content: center;
-}
+<div class="ad-slot">YOUR AD HERE (MONEY $)</div>
 
-.logo-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+<div class="search-box">
+    <input type="text" class="search-input" placeholder="Search your favorite movie...">
+</div>
 
-.site-logo {
-    width: 140px; 
-    height: auto;
-    display: block;
-    margin: 0 auto;
-}
+<div class="movie-grid">
+    <div class="movie-card">
+        <div class="poster-placeholder">🎬</div>
+        <div class="movie-info">
+            <h3>New Releases 2026</h3>
+            <button class="play-btn">Watch Now</button>
+        </div>
+    </div>
+    <div class="movie-card">
+        <div class="poster-placeholder">🎬</div>
+        <div class="movie-info">
+            <h3>Trending Now</h3>
+            <button class="play-btn">Watch Now</button>
+        </div>
+    </div>
+</div>
 
-.logo-sub {
-    font-size: 15px;
-    margin-top: 5px;
-    opacity: 0.9;
-    font-weight: 500;
-}
+<nav class="bottom-nav">
+    <a href="#" class="nav-item active">Home</a>
+    <a href="#" class="nav-item">Trends</a>
+    <a href="#" class="nav-item">Library</a>
+</nav>
 
-.ad-slot {
-    margin: 15px 20px; height: 55px;
-    border: 2px dashed var(--accent);
-    border-radius: 15px; display: flex;
-    align-items: center; justify-content: center;
-    font-size: 10px; color: var(--accent);
-    background: rgba(0,0,0,0.1);
-    font-weight: bold;
-}
-
-.search-box { padding: 10px 20px; }
-.search-input {
-    width: 100%; padding: 14px; border-radius: 25px;
-    border: none; background: #fff; outline: none;
-    box-sizing: border-box; font-size: 16px;
-    color: #000;
-}
-
-.movie-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 15px; padding: 20px;
-}
-
-.movie-card {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 25px; padding: 12px;
-    text-align: center;
-}
-
-.poster-placeholder {
-    width: 100%; aspect-ratio: 3/4;
-    background: #111; border-radius: 20px;
-    margin-bottom: 10px; display: flex;
-    align-items: center; justify-content: center; font-size: 35px;
-}
-
-.movie-info h3 { font-size: 14px; margin: 5px 0 12px; font-weight: 600; }
-
-.play-btn {
-    background: var(--accent); color: #000;
-    border: none; width: 100%; padding: 12px;
-    border-radius: 18px; font-weight: bold;
-}
-
-/* ФИКС НИЖНЕЙ ПАНЕЛИ */
-.bottom-nav {
-    position: fixed; 
-    bottom: 0; 
-    width: 100%;
-    background: var(--nav-bg); /* Темный фон */
-    display: flex; 
-    justify-content: space-around;
-    padding: 20px 0 30px; /* Больше отступ снизу для удобства */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.2); /* Тень, чтобы не сливалось */
-    z-index: 1000;
-}
-
-.nav-item { 
-    color: #fff; 
-    text-decoration: none; 
-    font-size: 13px; 
-    opacity: 0.5; /* Неактивные кнопки чуть прозрачные */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.nav-item.active { 
-    color: var(--accent); 
-    font-weight: bold; 
-    opacity: 1; /* Активная кнопка горит ярко */
-}
+</body>
+</html>
