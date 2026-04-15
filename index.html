@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PiK.PiK — Clean Design</title>
+    <title>PikPik — Final Design</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ОДИН ШРИФТ ДЛЯ ВСЕГО САЙТА */
+        /* ОДИНАКОВЫЙ ШРИФТ ВЕЗДЕ */
         * {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -14,7 +14,7 @@
         }
 
         :root {
-            --bg-color: #E30B5D; /* Мягкий малиновый */
+            --bg-color: #E30B5D; /* Твой малиновый */
             --accent: #BFFF00;   /* Лаймовый */
         }
 
@@ -23,10 +23,9 @@
             color: #fff;
             margin: 0; padding: 0;
             padding-bottom: 140px;
-            overflow-x: hidden;
         }
 
-        /* ШАПКА: БУРГЕР - ЛОГО - КНОПКА */
+        /* ШАПКА КАК НА КИНОПОИСКЕ */
         .main-header {
             padding: 55px 20px 15px;
             display: flex;
@@ -38,12 +37,12 @@
             z-index: 10000;
         }
 
+        /* ТРИ ПОЛОСКИ СЛЕВА */
         .burger-btn {
             display: flex;
             flex-direction: column;
             gap: 5px;
             width: 25px;
-            cursor: pointer;
         }
         .burger-btn span {
             width: 100%; height: 2.5px;
@@ -51,23 +50,19 @@
             border-radius: 10px;
         }
 
-        /* МЕСТО ДЛЯ ТВОЕГО ЛОГОТИПА (ПО ЦЕНТРУ) */
+        /* ТВОЙ ГОРИЗОНТАЛЬНЫЙ ЛОГОТИП */
         .logo-container {
             flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        /* Когда будешь вставлять картинку, замени текст ниже на <img src="твой_файл.png"> */
-        .logo-placeholder {
-            font-weight: 900;
-            font-size: 22px;
-            letter-spacing: -1px;
-            text-transform: uppercase;
-            color: #fff;
+        .logo-container img {
+            height: 30px; /* Размер логотипа под шапку */
+            width: auto;
         }
 
-        /* КНОПКА SIGN IN (ЛАЙМОВАЯ) */
+        /* ЛАЙМОВАЯ КНОПКА SIGN IN */
         .sign-in-btn {
             background: var(--accent);
             color: #000;
@@ -77,11 +72,10 @@
             font-weight: 800;
             font-size: 11px;
             text-transform: uppercase;
-            cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* КАРТОЧКИ ФИЛЬМОВ (МАТОВОЕ СТЕКЛО) */
+        /* КАРТОЧКИ (МЯГКОЕ СТЕКЛО) */
         .movie-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
@@ -92,7 +86,6 @@
         .movie-card {
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             border-radius: 25px;
             padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -106,7 +99,7 @@
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 12px;
         }
-        .poster-area i { color: var(--accent); font-size: 35px; opacity: 0.8; }
+        .poster-area i { color: var(--accent); font-size: 35px; }
 
         .play-btn {
             background: var(--accent);
@@ -136,7 +129,7 @@
     </div>
 
     <div class="logo-container">
-        <div class="logo-placeholder">PiK PiK</div>
+        <img src="CED48064-DB0D-4915-A061-5ECDA80D0DFD.jpeg" alt="PikPik">
     </div>
 
     <button class="sign-in-btn">SIGN IN</button>
