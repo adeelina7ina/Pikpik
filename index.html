@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PikPik — Final Design</title>
+    <title>PikPik — Sticker Menu Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ОДИНАКОВЫЙ ШРИФТ ВЕЗДЕ */
+        /* БАЗОВЫЙ СТИЛЬ И ШРИФТ */
         * {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-font-smoothing: antialiased;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
             --bg-color: #E30B5D; /* Твой малиновый */
-            --accent: #BFFF00;   /* Лаймовый */
+            --accent: #BFFF00;   /* Салатовый */
+            --menu-bg: rgba(176, 14, 68, 0.98);
         }
 
         body {
             background-color: var(--bg-color);
             color: #fff;
             margin: 0; padding: 0;
-            padding-bottom: 140px;
+            overflow-x: hidden;
+            padding-bottom: 120px;
         }
 
-        /* ШАПКА КАК НА КИНОПОИСКЕ */
+        /* ШАПКА */
         .main-header {
             padding: 55px 20px 15px;
             display: flex;
@@ -34,15 +36,15 @@
             background-color: var(--bg-color);
             position: fixed;
             top: 0; left: 0; width: 100%;
-            z-index: 10000;
+            z-index: 1000;
         }
 
-        /* ТРИ ПОЛОСКИ СЛЕВА */
         .burger-btn {
             display: flex;
             flex-direction: column;
             gap: 5px;
             width: 25px;
+            cursor: pointer;
         }
         .burger-btn span {
             width: 100%; height: 2.5px;
@@ -50,19 +52,11 @@
             border-radius: 10px;
         }
 
-        /* ТВОЙ ГОРИЗОНТАЛЬНЫЙ ЛОГОТИП */
-        .logo-container {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
         .logo-container img {
-            height: 30px; /* Размер логотипа под шапку */
+            height: 35px;
             width: auto;
         }
 
-        /* ЛАЙМОВАЯ КНОПКА SIGN IN */
         .sign-in-btn {
             background: var(--accent);
             color: #000;
@@ -72,10 +66,70 @@
             font-weight: 800;
             font-size: 11px;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* КАРТОЧКИ (МЯГКОЕ СТЕКЛО) */
+        /* ВЫЕЗЖАЮЩЕЕ МЕНЮ НА ПОЛ-ЭКРАНА */
+        .side-menu {
+            position: fixed;
+            top: 0; left: -50%;
+            width: 50%; height: 100%;
+            background: var(--menu-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 100px 15px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .side-menu.active { left: 0; }
+
+        .close-btn {
+            position: absolute;
+            top: 50px; right: 15px;
+            font-size: 30px; color: white;
+            cursor: pointer;
+        }
+
+        .menu-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .menu-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* САЛАТОВЫЕ СТИКЕРЫ */
+        .menu-nav a i {
+            width: 32px; height: 32px;
+            background-color: var(--accent);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: #000; font-size: 14px;
+            box-shadow: 
+                inset 0 -2px 4px rgba(0,0,0,0.2), 
+                inset 0 2px 4px rgba(255,255,255,0.4),
+                0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* Иконки для стикеров */
+        .s-cat::before { content: "\f5fd"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+        .s-mov::before { content: "\f145"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+        .s-ser::before { content: "\f26c"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+        .s-new::before { content: "\f06d"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+        .s-fav::before { content: "\f005"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+        .s-set::before { content: "\f013"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+
+        /* КОНТЕНТ (КАРТОЧКИ) */
         .movie-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
@@ -84,86 +138,103 @@
         }
         
         .movie-card {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
             padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
 
         .poster-area {
             width: 100%; aspect-ratio: 2/3;
             background: rgba(0,0,0,0.1);
-            border-radius: 18px;
+            border-radius: 15px;
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
-        .poster-area i { color: var(--accent); font-size: 35px; }
+        .poster-area i { color: var(--accent); font-size: 30px; }
 
         .play-btn {
             background: var(--accent);
-            color: #000; border: none; width: 100%; padding: 12px;
-            border-radius: 15px; font-weight: 800; font-size: 11px;
+            color: #000; border: none; width: 100%; padding: 10px;
+            border-radius: 12px; font-weight: 800; font-size: 11px;
         }
 
         /* НИЖНЕЕ МЕНЮ */
         .bottom-nav {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 85%; background: rgba(255, 255, 255, 0.15); 
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: 90%; background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(20px); border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex; justify-content: space-around; padding: 12px 0;
-            z-index: 9999;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .nav-item { color: #fff; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0.6; }
         .nav-item.active { opacity: 1; color: var(--accent); }
-        .nav-item i { font-size: 20px; }
     </style>
 </head>
 <body>
 
+<div class="side-menu" id="sideMenu">
+    <div class="close-btn" id="closeMenu">&times;</div>
+    <nav class="menu-nav">
+        <a href="#"><i class="s-cat"></i>Categories</a>
+        <a href="#"><i class="s-mov"></i>Movies</a>
+        <a href="#"><i class="s-ser"></i>TV Series</a>
+        <a href="#"><i class="s-new"></i>New</a>
+        <a href="#"><i class="s-fav"></i>Watchlist</a>
+        <a href="#"><i class="s-set"></i>Settings</a>
+    </nav>
+</div>
+
 <header class="main-header">
-    <div class="burger-btn">
+    <div class="burger-btn" id="openMenu">
         <span></span><span></span><span></span>
     </div>
-
     <div class="logo-container">
         <img src="10643A89-D363-4E58-8E4E-EF64184C9075.png" alt="PikPik">
     </div>
-
     <button class="sign-in-btn">SIGN IN</button>
 </header>
 
 <div class="movie-grid">
     <div class="movie-card">
-        <div class="poster-area"><i class="fas fa-clapperboard"></i></div>
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Inside Out 2</div>
-        <button class="play-btn">WATCH NOW</button>
+        <div class="poster-area"><i class="fas fa-play"></i></div>
+        <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px;">Inside Out 2</div>
+        <button class="play-btn">WATCH</button>
     </div>
     <div class="movie-card">
-        <div class="poster-area"><i class="fas fa-clapperboard"></i></div>
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Deadpool 3</div>
-        <button class="play-btn">WATCH NOW</button>
+        <div class="poster-area"><i class="fas fa-play"></i></div>
+        <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px;">Deadpool 3</div>
+        <button class="play-btn">WATCH</button>
     </div>
 </div>
 
 <nav class="bottom-nav">
-    <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-fire"></i><span>Trends</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-book-open"></i><span>Library</span></a>
+    <a href="#" class="nav-item active"><i class="fas fa-home" style="font-size: 18px;"></i><span>Home</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-fire" style="font-size: 18px;"></i><span>Trends</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-bookmark" style="font-size: 18px;"></i><span>Saved</span></a>
 </nav>
+
 <script>
-    // Находим кнопку "бутерброд"
-    const burger = document.querySelector('.burger-btn');
-    
-    // Добавляем действие при клике
-    burger.addEventListener('click', () => {
-        alert('Здесь будет открываться меню!');
-        // В будущем здесь можно прописать появление боковой панели
+    const openBtn = document.getElementById('openMenu');
+    const closeBtn = document.getElementById('closeMenu');
+    const sideMenu = document.getElementById('sideMenu');
+
+    openBtn.addEventListener('click', () => {
+        sideMenu.classList.add('active');
     });
 
-    // Если ты добавишь кнопку с тремя точками, логика будет такая же
+    closeBtn.addEventListener('click', () => {
+        sideMenu.classList.remove('active');
+    });
+
+    // Закрытие кликом вне меню
+    window.addEventListener('click', (e) => {
+        if (e.target === sideMenu) {
+            sideMenu.classList.remove('active');
+        }
+    });
 </script>
 
 </body>
