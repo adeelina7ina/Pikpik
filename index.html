@@ -2,46 +2,125 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PiK.PiK — Movies & Series</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PiK.PiK — Premium Cinema</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div id="side-menu" class="side-menu">
+    <div class="menu-header">Menu</div>
+    <div class="menu-items">
+        <a href="#" class="menu-link">👤 Profile</a>
+        <a href="#" class="menu-link">⭐ Favorites</a>
+        <a href="#" class="menu-link">⚙️ Settings</a>
+        <a href="#" class="menu-link">💎 Premium</a>
+    </div>
+</div>
+
+<div id="overlay" class="overlay"></div>
+
 <header class="main-header">
-    <div class="logo-wrapper">
-        <img src="978AC2CD-A8DC-4EC3-BAAD-002C6B62DF53.png" alt="PiK.PiK" class="site-logo">
+    <div class="header-top">
+        <div class="burger-btn" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
         </div>
+        <div class="profile-circle"></div>
+    </div>
+
+    <div id="header-content" class="header-dynamic-content"></div>
 </header>
 
-<div class="ad-slot">YOUR AD HERE (MONEY $)</div>
-
 <div class="search-box">
-    <input type="text" class="search-input" placeholder="Search your favorite movie...">
+    <input type="text" class="search-input" placeholder="Search movies, series...">
 </div>
+
+<div class="section-title">Trending Now</div>
 
 <div class="movie-grid">
     <div class="movie-card">
-        <div class="poster-placeholder">🎬</div>
+        <img src="https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZno4H6bsGvY6.jpg" class="poster-img">
         <div class="movie-info">
-            <h3>New Releases 2026</h3>
-            <button class="play-btn">Watch Now</button>
+            <h3>Inside Out 2</h3>
+            <button class="play-btn" onclick="watchMovie('Inside Out 2')">Watch Now</button>
         </div>
     </div>
     <div class="movie-card">
-        <div class="poster-placeholder">🎬</div>
+        <img src="https://image.tmdb.org/t/p/w500/86goS1vS99Xp69V8R9Y6kyVYjg5.jpg" class="poster-img">
         <div class="movie-info">
-            <h3>Trending Now</h3>
-            <button class="play-btn">Watch Now</button>
+            <h3>Deadpool 3</h3>
+            <button class="play-btn" onclick="watchMovie('Deadpool 3')">Watch Now</button>
         </div>
     </div>
 </div>
 
 <nav class="bottom-nav">
-    <a href="#" class="nav-item active">Home</a>
-    <a href="#" class="nav-item">Trends</a>
-    <a href="#" class="nav-item">Library</a>
+    <a href="#" class="nav-item active">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+    </a>
+    <a href="#" class="nav-item">
+        <span class="nav-icon">🔥</span>
+        <span>Trends</span>
+    </a>
+    <a href="#" class="nav-item">
+        <span class="nav-icon">📚</span>
+        <span>Library</span>
+    </a>
 </nav>
+
+<script>
+    const menu = document.getElementById('side-menu');
+    const overlay = document.getElementById('overlay');
+    const headerContent = document.getElementById('header-content');
+    let touchStart = 0;
+
+    // Функция переключения меню
+    function toggleMenu() {
+        menu.classList.toggle('open');
+        overlay.classList.toggle('active');
+    }
+
+    overlay.onclick = toggleMenu;
+
+    // Свайп для меню
+    window.addEventListener('touchstart', e => touchStart = e.touches[0].clientX);
+    window.addEventListener('touchend', e => {
+        let touchEnd = e.changedTouches[0].clientX;
+        if (touchEnd - touchStart > 100 && touchStart < 50) toggleMenu();
+        if (touchStart - touchEnd > 100) { menu.classList.remove('open'); overlay.classList.remove('active'); }
+    });
+
+    // Умная шапка
+    function updateHeader() {
+        const lastMovie = localStorage.getItem('lastWatched');
+        if (lastMovie) {
+            headerContent.innerHTML = `
+                <div class="continue-widget">
+                    <div class="widget-info">
+                        <span class="widget-label">Continue Watching</span>
+                        <h2 class="widget-title">${lastMovie}</h2>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+                    </div>
+                    <div class="widget-play">▶</div>
+                </div>`;
+        } else {
+            headerContent.innerHTML = `
+                <div class="big-logo-container">
+                    <img src="978AC2CD-A8DC-4EC3-BAAD-002C6B62DF53.png" class="site-logo-big">
+                </div>`;
+        }
+    }
+
+    // Имитация просмотра (для теста виджета)
+    function watchMovie(title) {
+        localStorage.setItem('lastWatched', title);
+        updateHeader();
+        alert('Now playing: ' + title);
+    }
+
+    updateHeader();
+</script>
 
 </body>
 </html>
