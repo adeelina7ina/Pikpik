@@ -3,174 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PikPik — Final Version</title>
+    <title>PikPik — Real Auth</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-
     <style>
         * { font-family: -apple-system, BlinkMacSystemFont, sans-serif; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root { --bg-color: #E30B5D; --accent: #BFFF00; --glass: rgba(255, 255, 255, 0.15); }
         body { background-color: var(--bg-color); color: #fff; margin: 0; padding-bottom: 160px; overflow-x: hidden; }
 
+        /* Шапка */
         .main-header { padding: 55px 20px 15px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background-color: var(--bg-color); }
-        .logo-container img { height: 35px; }
-        .sign-in-btn { background: var(--accent); color: #000; border: none; padding: 8px 18px; border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase; cursor: pointer; }
+        .sign-in-btn { background: var(--accent); color: #000; border: none; padding: 10px 20px; border-radius: 25px; font-weight: 900; font-size: 12px; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        
+        /* Синяя галочка */
+        .verify-badge { color: #42a5f5; font-size: 14px; display: none; }
+        .is-verified .verify-badge { display: inline-block; }
 
+        /* Сетка видео */
         .movie-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 20px; margin-top: 130px; }
-        .movie-card { background: var(--glass); border-radius: 30px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; position: relative; }
+        .movie-card { background: var(--glass); border-radius: 30px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
         .poster-area { width: 100%; aspect-ratio: 2/3; background: rgba(0,0,0,0.2); border-radius: 22px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: var(--accent); font-size: 40px; }
-        .play-btn-fixed { background: var(--accent); color: #000; border: none; width: 100%; padding: 14px; border-radius: 18px; font-weight: 900; font-size: 11px; text-transform: uppercase; }
-
-        .fav-btn { position: absolute; top: 25px; right: 25px; color: rgba(255,255,255,0.4); font-size: 20px; cursor: pointer; transition: 0.3s; }
-        .fav-btn.active { color: var(--accent); }
-        .options-btn { position: absolute; top: 25px; left: 25px; color: rgba(255,255,255,0.5); font-size: 18px; cursor: pointer; padding: 5px; }
-
-        .bottom-nav-fixed { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); width: 88%; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(25px); border-radius: 100px; display: flex; justify-content: space-around; padding: 18px 0; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 999; }
-        .nav-item { color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.6; transition: 0.3s; }
+        
+        /* Модальные окна */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+        .modal-content { background: #780a2d; width: 85%; padding: 30px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); }
+        .modal-input { width: 100%; background: rgba(255,255,255,0.1); color: white; border: none; padding: 15px; border-radius: 15px; margin-bottom: 12px; outline: none; }
+        .action-btn { background: var(--accent); color: #000; border: none; width: 100%; padding: 15px; border-radius: 20px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        
+        .bottom-nav-fixed { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); width: 88%; background: var(--glass); backdrop-filter: blur(25px); border-radius: 100px; display: flex; justify-content: space-around; padding: 18px 0; border: 1px solid rgba(255, 255, 255, 0.2); z-index: 999; }
+        .nav-item { color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.6; }
         .nav-item.active { opacity: 1; color: var(--accent); }
     </style>
 </head>
 <body>
 
 <header class="main-header">
-    <div class="burger-btn" id="openBtn"><span></span><span></span><span></span></div>
-    <div class="logo-container"><img src="10643A89-D363-4E58-8E4E-EF64184C9075.png"></div>
-    <button class="sign-in-btn" id="userBtn" onclick="openReg()">SIGN IN</button>
+    <div style="font-size: 24px;"><i class="fas fa-bars"></i></div>
+    <div style="font-weight: 900; font-size: 24px; letter-spacing: 2px;">PiKPiK</div>
+    <button class="sign-in-btn" id="userBtn" onclick="handleAuthClick()">
+        <span id="btnText">Sign In</span>
+        <i class="fas fa-check-circle verify-badge"></i>
+    </button>
 </header>
-
-<div class="side-menu-island" id="sideMenu">
-    <nav class="menu-nav">
-        <a href="#" onclick="setActiveTab('tab-home', 'all')"><i class="fas fa-layer-group"></i><span class="lang-cat">Categories</span></a>
-        <a href="#" onclick="setActiveTab('tab-home', 'movie')"><i class="fas fa-ticket"></i><span class="lang-mov">Movies</span></a>
-        <a href="#" onclick="setActiveTab('tab-home', 'tv')"><i class="fas fa-tv"></i><span class="lang-ser">TV Series</span></a>
-        <a href="#" onclick="setActiveTab('tab-saved', 'watchlist')"><i class="fas fa-star"></i><span class="lang-wat">Watchlist</span></a>
-        <a href="#" onclick="openSettings()"><i class="fas fa-gear"></i><span class="lang-set">Settings</span></a>
-    </nav>
-</div>
 
 <div class="modal" id="regModal">
     <div class="modal-content">
-        <h2 class="lang-reg">Registration</h2>
-        <input type="text" id="regName" class="modal-input" placeholder="Name">
-        <button class="action-btn" onclick="registerUser()">JOIN NOW</button>
+        <h2 style="text-align:center">Create Account</h2>
+        <input type="text" id="regName" class="modal-input" placeholder="Your Name">
+        <input type="email" id="regEmail" class="modal-input" placeholder="Email">
+        <input type="password" id="regPass" class="modal-input" placeholder="Password (min 6 symbols)">
+        <button class="action-btn" onclick="saveAccount()">Sign Up</button>
+        <p onclick="closeModal('regModal')" style="text-align:center; opacity:0.5; font-size:12px; margin-top:15px;">CANCEL</p>
     </div>
 </div>
 
-<div class="modal" id="settingsModal">
+<div class="modal" id="accountModal">
     <div class="modal-content">
-        <h2 class="lang-set">Settings</h2>
-        <div class="setting-item">
-            <span class="lang-lang">Language</span>
-            <select id="langSelect" class="setting-select" onchange="changeLang(this.value)">
-                <option value="en">English</option>
-                <option value="ro">Română</option>
-                <option value="ru">Русский</option>
-            </select>
-        </div>
-        <button class="action-btn" onclick="closeModal('settingsModal')">SAVE & CLOSE</button>
+        <h2 id="userNameLabel" style="text-align:center">User</h2>
+        <p style="text-align:center; opacity:0.7">Status: <span id="verifyStatus">Loading...</span></p>
+        <button class="action-btn" onclick="logout()" style="background:#ff4d4d; color:white">Logout</button>
+        <button class="action-btn" onclick="closeModal('accountModal')" style="margin-top:10px; background:rgba(255,255,255,0.1); color:white">Close</button>
     </div>
 </div>
 
-<div class="movie-grid" id="movieGrid">
-    <div class="movie-card" data-type="movie" id="m1">
-        <i class="fas fa-heart fav-btn" onclick="toggleFav('m1')"></i>
-        <i class="fas fa-ellipsis-v options-btn" onclick="alert('Options for Inside Out 2')"></i>
-        <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px;">Inside Out 2</div>
-        <button class="play-btn-fixed">WATCH NOW</button>
-    </div>
-    <div class="movie-card" data-type="movie" id="m2">
-        <i class="fas fa-heart fav-btn" onclick="toggleFav('m2')"></i>
-        <i class="fas fa-ellipsis-v options-btn" onclick="alert('Options for Deadpool 3')"></i>
-        <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px;">Deadpool 3</div>
-        <button class="play-btn-fixed">WATCH NOW</button>
-    </div>
-    <div class="movie-card" data-type="tv" id="m3">
-        <i class="fas fa-heart fav-btn" onclick="toggleFav('m3')"></i>
-        <i class="fas fa-ellipsis-v options-btn" onclick="alert('Options for Dune 2')"></i>
-        <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px;">Dune: Part 2</div>
-        <button class="play-btn-fixed">WATCH NOW</button>
-    </div>
-    <div class="movie-card" data-type="tv" id="m4">
-        <i class="fas fa-heart fav-btn" onclick="toggleFav('m4')"></i>
-        <i class="fas fa-ellipsis-v options-btn" onclick="alert('Options for Furiosa')"></i>
-        <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px;">Furiosa</div>
-        <button class="play-btn-fixed">WATCH NOW</button>
-    </div>
+<div class="movie-grid">
+    <div class="movie-card"><div class="poster-area"><i class="fas fa-play"></i></div><b>Inside Out 2</b></div>
+    <div class="movie-card"><div class="poster-area"><i class="fas fa-play"></i></div><b>Deadpool 3</b></div>
 </div>
 
 <nav class="bottom-nav-fixed">
-    <a href="#" id="tab-home" class="nav-item active" onclick="setActiveTab('tab-home', 'all')">
-        <i class="fas fa-home"></i><span class="lang-home">Home</span>
-    </a>
-    <a href="#" id="tab-trends" class="nav-item" onclick="setActiveTab('tab-trends', 'all')">
-        <i class="fas fa-fire-alt"></i><span class="lang-trend">Trends</span>
-    </a>
-    <a href="#" id="tab-saved" class="nav-item" onclick="setActiveTab('tab-saved', 'watchlist')">
-        <i class="fas fa-bookmark"></i><span class="lang-sav">Saved</span>
-    </a>
+    <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Главная</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-fire"></i><span>Тренды</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-bookmark"></i><span>Сохранено</span></a>
 </nav>
 
-<script>
-    const translations = {
-        en: { cat:"Categories", mov:"Movies", ser:"TV Series", wat:"Watchlist", set:"Settings", reg:"Registration", home:"Home", trend:"Trends", sav:"Saved", lang:"Language" },
-        ro: { cat:"Categorii", mov:"Filme", ser:"Seriale", wat:"Favorite", set:"Setări", reg:"Înregistrare", home:"Acasă", trend:"Trenduri", sav:"Salvate", lang:"Limba" },
-        ru: { cat:"Категории", mov:"Фильмы", ser:"Сериалы", wat:"Избранное", set:"Настройки", reg:"Регистрация", home:"Главная", trend:"Тренды", sav:"Сохранено", lang:"Язык" }
+<script type="module">
+    // Подключение Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyATSAZpdQM90oDdJzJnau-G32Vfl_LF0yY",
+        authDomain: "pikpik-83897.firebaseapp.com",
+        projectId: "pikpik-83897",
+        storageBucket: "pikpik-83897.firebasestorage.app",
+        messagingSenderId: "426731443615",
+        appId: "1:426731443615:web:97bad247dc1374b9a359aa"
     };
 
-    window.onload = () => {
-        const savedLang = localStorage.getItem('pLang') || 'en';
-        document.getElementById('langSelect').value = savedLang;
-        changeLang(savedLang);
-        const savedName = localStorage.getItem('pName');
-        if(savedName) document.getElementById('userBtn').innerText = savedName.toUpperCase();
-    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    function setActiveTab(tabId, filterType) {
-        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        if (filterType === 'watchlist') showWatchlist();
-        else updateUI(filterType);
-    }
-
-    function changeLang(lang) {
-        localStorage.setItem('pLang', lang);
-        const t = translations[lang];
-        Object.keys(t).forEach(key => {
-            document.querySelectorAll('.lang-' + key).forEach(el => el.innerText = t[key]);
-        });
-    }
-
-    function openReg() { document.getElementById('regModal').style.display = 'flex'; }
-    function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; document.getElementById('sideMenu').classList.remove('active'); }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    function registerUser() {
-        const name = document.getElementById('regName').value;
-        if(name) {
-            localStorage.setItem('pName', name);
-            document.getElementById('userBtn').innerText = name.toUpperCase();
-            closeModal('regModal');
+    // Функции для окна
+    window.handleAuthClick = () => {
+        const user = auth.currentUser;
+        if (user) {
+            document.getElementById('userNameLabel').innerText = user.displayName || "User";
+            document.getElementById('verifyStatus').innerText = user.emailVerified ? "Verified ✅" : "Not Verified ❌";
+            document.getElementById('accountModal').style.display = 'flex';
+        } else {
+            document.getElementById('regModal').style.display = 'flex';
         }
-    }
+    };
 
-    function toggleFav(id) { document.getElementById(id).querySelector('.fav-btn').classList.toggle('active'); }
+    window.saveAccount = async () => {
+        const email = document.getElementById('regEmail').value;
+        const pass = document.getElementById('regPass').value;
+        const name = document.getElementById('regName').value;
 
-    function updateUI(type) {
-        document.querySelectorAll('.movie-card').forEach(card => card.style.display = (type==='all' || card.dataset.type===type) ? 'block' : 'none');
-        document.getElementById('sideMenu').classList.remove('active');
-    }
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+            await updateProfile(userCredential.user, { displayName: name });
+            await sendEmailVerification(userCredential.user);
+            alert("Success! Check your email to verify account.");
+            location.reload();
+        } catch (e) { alert(e.message); }
+    };
 
-    function showWatchlist() {
-        document.querySelectorAll('.movie-card').forEach(card => card.style.display = card.querySelector('.fav-btn').classList.contains('active') ? 'block' : 'none');
-        document.getElementById('sideMenu').classList.remove('active');
-    }
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            document.getElementById('btnText').innerText = (user.displayName || "User").toUpperCase();
+            if (user.emailVerified) document.body.classList.add('is-verified');
+        } else {
+            document.getElementById('btnText').innerText = "Sign In";
+        }
+    });
 
-    document.getElementById('openBtn').onclick = (e) => { e.stopPropagation(); document.getElementById('sideMenu').classList.toggle('active'); };
-    window.onclick = (e) => { if (!e.target.closest('.side-menu-island') && !e.target.closest('.modal-content')) { document.getElementById('sideMenu').classList.remove('active'); } };
+    window.logout = () => signOut(auth).then(() => location.reload());
+    window.closeModal = (id) => document.getElementById(id).style.display = 'none';
 </script>
+
 </body>
 </html>
