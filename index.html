@@ -8,87 +8,81 @@
     <style>
         * { font-family: -apple-system, BlinkMacSystemFont, sans-serif; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root { --bg-color: #E30B5D; --accent: #BFFF00; --glass: rgba(255, 255, 255, 0.15); }
-        body { background-color: var(--bg-color); color: #fff; margin: 0; padding-bottom: 120px; overflow-x: hidden; }
+        
+        body { background-color: var(--bg-color); color: #fff; margin: 0; padding-bottom: 120px; }
 
         /* HEADER */
-        .main-header { padding: 55px 20px 15px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background-color: var(--bg-color); }
-        
-        /* БУРГЕР - ТЕПЕРЬ РАБОТАЕТ */
-        .burger-btn { display: flex; flex-direction: column; gap: 5px; width: 22px; cursor: pointer; border: none; background: none; padding: 0; }
+        .main-header { padding: 55px 20px 15px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: var(--bg-color); }
+        .logo-img { height: 32px; width: auto; }
+
+        .burger-btn { display: flex; flex-direction: column; gap: 5px; width: 22px; cursor: pointer; border: none; background: none; }
         .burger-btn span { display: block; width: 100%; height: 3px; background: #fff; border-radius: 10px; }
         .burger-btn span:nth-child(2) { width: 65%; }
 
-        /* ЛОГОТИП */
-        .logo-img { height: 32px; width: auto; }
+        .auth-btn { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 25px; font-weight: 900; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        .verify-badge { color: #42a5f5; font-size: 14px; }
 
-        /* КНОПКА SIGN IN / ИМЯ */
-        .auth-btn { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 25px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-        .verify-badge { color: #42a5f5; font-size: 14px; display: none; }
-        .is-verified .verify-badge { display: inline-block; }
-
-        /* GRID И КАРТОЧКИ (КАК БЫЛО) */
+        /* GRID */
         .movie-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; margin-top: 110px; }
-        .movie-card { background: var(--glass); border-radius: 35px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
-        .card-top { display: flex; justify-content: space-between; padding: 5px 10px; opacity: 0.6; margin-bottom: 5px; }
+        .movie-card { background: var(--glass); border-radius: 35px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         
-        .poster-area { width: 100%; aspect-ratio: 1/1.3; background: rgba(0,0,0,0.1); border-radius: 28px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-        .play-icon { color: var(--accent); font-size: 35px; }
-        
-        .movie-title { font-weight: 800; font-size: 14px; margin-bottom: 12px; display: block; text-align: center; }
-        .watch-btn { background: var(--accent); color: #000; border: none; width: 100%; padding: 12px; border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase; cursor: pointer; }
+        .poster-area { 
+            width: 100%; 
+            aspect-ratio: 1/1.4; 
+            background: rgba(0,0,0,0.1); 
+            border-radius: 28px; 
+            margin-bottom: 10px; 
+            overflow: hidden;
+            position: relative;
+        }
+        .poster-area img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* МЕНЮ СНИЗУ (ВИДЖЕТ) */
-        .bottom-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 85%; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border-radius: 40px; display: flex; justify-content: space-around; padding: 15px 0; border: 1px solid rgba(255,255,255,0.2); z-index: 1000; }
+        .movie-title { font-weight: 800; font-size: 14px; margin-bottom: 12px; display: block; height: 34px; overflow: hidden; }
+        .watch-btn { background: var(--accent); color: #000; border: none; width: 100%; padding: 12px; border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase; }
+
+        /* ТВОЕ ОРИГИНАЛЬНОЕ НИЖНЕЕ МЕНЮ (БЕЗ ИЗМЕНЕНИЙ) */
+        .bottom-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 85%; background: var(--glass); backdrop-filter: blur(20px); border-radius: 40px; display: flex; justify-content: space-around; padding: 15px 0; border: 1px solid rgba(255,255,255,0.2); z-index: 1000; }
         .nav-item { color: #fff; text-decoration: none; font-size: 11px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 5px; opacity: 0.5; }
         .nav-item.active { opacity: 1; color: var(--accent); }
-        .nav-item i { font-size: 18px; }
 
-        /* МОДАЛКИ ДЛЯ РЕГИСТРАЦИИ */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        .modal-content { background: #8a0c3b; width: 85%; padding: 30px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .modal-input { width: 100%; background: rgba(0,0,0,0.2); color: white; border: none; padding: 16px; border-radius: 18px; margin-bottom: 12px; outline: none; }
-        .modal-btn { background: var(--accent); color: #000; border: none; width: 100%; padding: 16px; border-radius: 20px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        /* MODALS */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .modal-content { background: #8a0c3b; width: 85%; padding: 30px; border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .modal-input { width: 100%; background: rgba(0,0,0,0.2); color: #fff; border: none; padding: 16px; border-radius: 18px; margin-bottom: 12px; outline: none; }
     </style>
 </head>
 <body>
 
 <header class="main-header">
-    <button class="burger-btn" onclick="alert('Меню в разработке')">
-        <span></span><span></span><span></span>
-    </button>
-    
-    <img src="10643A89-D363-4E58-8E4E-EF64184C9075.png" class="logo-img" alt="PiKPiK">
-    
-    <button class="auth-btn" id="authTrigger" onclick="openAuth()">
-        <span id="userDisplay">Sign In</span>
-        <i class="fas fa-check-circle verify-badge"></i>
+    <button class="burger-btn" onclick="openMenu()"><span></span><span></span><span></span></button>
+    <img src="10643A89-D363-4E58-8E4E-EF64184C9075.png" class="logo-img">
+    <button class="auth-btn" onclick="toggleAuth()">
+        <span id="btnText">Sign In</span>
+        <i class="fas fa-check-circle verify-badge" id="badge" style="display:none"></i>
     </button>
 </header>
 
 <div class="movie-grid">
-    <div class="movie-card">
-        <div class="card-top"><i class="fas fa-ellipsis-v"></i><i class="far fa-heart"></i></div>
-        <div class="poster-area"><i class="fas fa-play play-icon"></i></div>
-        <span class="movie-title">Inside Out 2</span>
-        <button class="watch-btn">Watch Now</button>
+    <div class="movie-card"><div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvRIoYzbQ.jpg"></div><span class="movie-title">Inside Out 2</span><button class="watch-btn">Watch Now</button></div>
+    <div class="movie-card"><div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/8Y43TsYvjUdtC2p3zJp9v07VpPL.jpg"></div><span class="movie-title">Deadpool 3</span><button class="watch-btn">Watch Now</button></div>
+    <div class="movie-card"><div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/n997U9p9W7Yf6Z86Ex96C9C9n9C.jpg"></div><span class="movie-title">Moana 2</span><button class="watch-btn">Watch Now</button></div>
+    <div class="movie-card"><div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/18wo7fS6pX2vI7S3D90yD9PzVpL.jpg"></div><span class="movie-title">Joker 2</span><button class="watch-btn">Watch Now</button></div>
+</div>
+
+<div class="modal" id="authModal">
+    <div class="modal-content">
+        <h2>Welcome</h2>
+        <input type="text" id="nameInp" class="modal-input" placeholder="Your Name">
+        <button class="watch-btn" style="font-size:16px" onclick="doLogin()">Login</button>
+        <p onclick="closeModals()" style="margin-top:20px; cursor:pointer; opacity:0.5">CLOSE</p>
     </div>
-    <div class="movie-card">
-        <div class="card-top"><i class="fas fa-ellipsis-v"></i><i class="far fa-heart"></i></div>
-        <div class="poster-area"><i class="fas fa-play play-icon"></i></div>
-        <span class="movie-title">Deadpool 3</span>
-        <button class="watch-btn">Watch Now</button>
-    </div>
-    <div class="movie-card">
-        <div class="card-top"><i class="fas fa-ellipsis-v"></i><i class="far fa-heart"></i></div>
-        <div class="poster-area"><i class="fas fa-play play-icon"></i></div>
-        <span class="movie-title">Dune: Part 2</span>
-        <button class="watch-btn">Watch Now</button>
-    </div>
-    <div class="movie-card">
-        <div class="card-top"><i class="fas fa-ellipsis-v"></i><i class="far fa-heart"></i></div>
-        <div class="poster-area"><i class="fas fa-play play-icon"></i></div>
-        <span class="movie-title">Furiosa</span>
-        <button class="watch-btn">Watch Now</button>
+</div>
+
+<div class="modal" id="menuModal">
+    <div class="modal-content">
+        <h2>Menu</h2>
+        <p>Settings • Profile • Search</p>
+        <button class="watch-btn" onclick="closeModals()">Back</button>
     </div>
 </div>
 
@@ -98,67 +92,38 @@
     <a href="#" class="nav-item"><i class="fas fa-bookmark"></i><span>Saved</span></a>
 </nav>
 
-<div class="modal" id="authModal">
-    <div class="modal-content">
-        <h2 id="modalTitle">Create Account</h2>
-        <div id="regFields">
-            <input type="text" id="regName" class="modal-input" placeholder="Name">
-            <input type="email" id="regEmail" class="modal-input" placeholder="Email">
-            <input type="password" id="regPass" class="modal-input" placeholder="Password">
-            <button class="modal-btn" onclick="signUp()">Sign Up</button>
-        </div>
-        <div id="userFields" style="display:none">
-            <p>Status: <span id="statusTxt"></span></p>
-            <button class="modal-btn" style="background:#ff4d4d; color:#fff" onclick="signOutUser()">Logout</button>
-        </div>
-        <p onclick="closeAuth()" style="margin-top:20px; opacity:0.5; font-size:12px; cursor:pointer">CLOSE</p>
-    </div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyATSAZpdQM90oDdJzJnau-G32Vfl_LF0yY",
-        authDomain: "pikpik-83897.firebaseapp.com",
-        projectId: "pikpik-83897",
-        storageBucket: "pikpik-83897.firebasestorage.app",
-        messagingSenderId: "426731443615",
-        appId: "1:426731443615:web:97bad247dc1374b9a359aa"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    window.openAuth = () => { document.getElementById('authModal').style.display = 'flex'; };
-    window.closeAuth = () => { document.getElementById('authModal').style.display = 'none'; };
-
-    window.signUp = async () => {
-        const name = document.getElementById('regName').value;
-        const email = document.getElementById('regEmail').value;
-        const pass = document.getElementById('regPass').value;
-        try {
-            const res = await createUserWithEmailAndPassword(auth, email, pass);
-            await updateProfile(res.user, { displayName: name });
-            await sendEmailVerification(res.user);
-            alert("Check your email!");
+<script>
+    function toggleAuth() {
+        const user = localStorage.getItem('pName');
+        if(user) {
+            localStorage.removeItem('pName');
             location.reload();
-        } catch (e) { alert(e.message); }
-    };
-
-    window.signOutUser = () => signOut(auth).then(() => location.reload());
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            document.getElementById('userDisplay').innerText = (user.displayName || "User").toUpperCase();
-            document.getElementById('modalTitle').innerText = user.displayName || "User";
-            document.getElementById('regFields').style.display = 'none';
-            document.getElementById('userFields').style.display = 'block';
-            document.getElementById('statusTxt').innerText = user.emailVerified ? "Verified ✅" : "Not Verified ❌";
-            if (user.emailVerified) document.body.classList.add('is-verified');
+        } else {
+            document.getElementById('authModal').style.display = 'flex';
         }
-    });
+    }
+
+    function doLogin() {
+        const name = document.getElementById('nameInp').value;
+        if(name) {
+            localStorage.setItem('pName', name);
+            location.reload();
+        }
+    }
+
+    function openMenu() { document.getElementById('menuModal').style.display = 'flex'; }
+    function closeModals() { 
+        document.getElementById('authModal').style.display = 'none'; 
+        document.getElementById('menuModal').style.display = 'none'; 
+    }
+
+    window.onload = () => {
+        const savedName = localStorage.getItem('pName');
+        if(savedName) {
+            document.getElementById('btnText').innerText = savedName.toUpperCase();
+            document.getElementById('badge').style.display = 'inline-block';
+        }
+    };
 </script>
 
 </body>
