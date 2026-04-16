@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PikPik — Premium Edition</title>
+    <title>PikPik — Refined Design with Widget</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* БАЗОВЫЕ НАСТРОЙКИ */
@@ -14,8 +14,8 @@
         }
 
         :root {
-            --bg-color: #E30B5D; /* Малиновый */
-            --accent: #BFFF00;   /* Салатовый */
+            --bg-color: #E30B5D; /* Твой малиновый */
+            --accent: #BFFF00;   /* Лаймовый */
             --menu-bg: rgba(176, 14, 68, 0.98);
         }
 
@@ -24,7 +24,7 @@
             color: #fff;
             margin: 0; padding: 0;
             overflow-x: hidden;
-            padding-bottom: 120px;
+            padding-bottom: 150px; /* Больше места для увеличенного таббара */
         }
 
         /* ШАПКА */
@@ -69,10 +69,10 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* ВЫЕЗЖАЮЩЕЕ МЕНЮ С ЗАКРУГЛЕННЫМИ КРАЯМИ */
+        /* БОКОВОЕ МЕНЮ */
         .side-menu {
             position: fixed;
-            top: 0; left: -55%; /* Прячем чуть дальше */
+            top: 0; left: -55%;
             width: 55%; height: 100%;
             background: var(--menu-bg);
             backdrop-filter: blur(25px);
@@ -81,9 +81,7 @@
             transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 100px 20px;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
-            
-            /* ВОТ ТУТ ЗАКРУГЛЕНИЕ КРАЕВ */
-            border-radius: 0 40px 40px 0; 
+            border-radius: 0 40px 40px 0;
             box-shadow: 10px 0 30px rgba(0,0,0,0.3);
         }
 
@@ -112,17 +110,19 @@
             gap: 15px;
         }
 
-        /* САЛАТОВЫЕ СТИКЕРЫ */
+        /* ОБНОВЛЕННЫЕ «ЧИСТЫЕ» САЛАТОВЫЕ ИКОНКИ (ДЛЯ МЕНЮ) */
         .menu-nav a i {
-            width: 34px; height: 34px;
+            width: 32px; height: 32px;
             background-color: var(--accent);
-            border-radius: 10px;
+            border-radius: 10px; /* Квадратик */
             display: flex; align-items: center; justify-content: center;
-            color: #000; font-size: 16px;
+            color: #000; font-size: 14px;
+            
+            /* Убрали лишний объем, оставили только мягкую тень */
             box-shadow: 
-                inset 0 -2px 4px rgba(0,0,0,0.2), 
-                inset 0 2px 4px rgba(255,255,255,0.4),
-                0 4px 8px rgba(0,0,0,0.2);
+                inset 0 -1px 3px rgba(0,0,0,0.1),
+                inset 0 1px 3px rgba(255,255,255,0.2),
+                0 4px 10px rgba(0,0,0,0.15);
         }
 
         /* ИКОНКИ ДЛЯ СТИКЕРОВ */
@@ -133,12 +133,57 @@
         .s-fav::before { content: "\f005"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
         .s-set::before { content: "\f013"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
 
-        /* КАРТОЧКИ ФИЛЬМОВ */
+        /* КОНТЕНТ — КОНТЕЙНЕР ДЛЯ СДВИГА */
+        .main-content {
+            padding-top: 135px; /* Базовый отступ от хедера */
+        }
+
+        /* ВИДЖЕТ «CONTINUE WATCHING» */
+        .continue-widget {
+            margin: 0 20px 25px; /* Отступы по бокам и снизу */
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .widget-poster {
+            width: 60px; height: 60px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .widget-poster i { color: var(--accent); font-size: 24px; opacity: 0.8; }
+
+        .widget-info { flex-grow: 1; }
+        .widget-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .widget-subtitle { font-size: 11px; opacity: 0.7; margin-bottom: 8px; }
+
+        /* Прогресс-бар */
+        .progress-container {
+            width: 100%; height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 65%; /* Насколько просмотрено */
+            height: 100%;
+            background-color: var(--accent);
+        }
+
+        /* КОНТЕНТ */
         .movie-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 15px; 
-            padding: 135px 20px 20px; 
+            padding: 0 20px 20px; 
         }
         
         .movie-card {
@@ -166,15 +211,30 @@
             text-transform: uppercase;
         }
 
-        /* НИЖНЯЯ ПАНЕЛЬ */
+        /* НИЖНЯЯ ПАНЕЛЬ (УВЕЛИЧЕННАЯ) */
         .bottom-nav {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 88%; background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(20px); border-radius: 100px;
-            display: flex; justify-content: space-around; padding: 14px 0;
+            display: flex; justify-content: space-around; 
+            padding: 18px 0; /* Увеличили высоту панели */
             border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
         }
-        .nav-item { color: #fff; text-decoration: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px; opacity: 0.6; }
+        
+        .nav-item { 
+            color: #fff; text-decoration: none; 
+            font-size: 13px; /* Увеличили шрифт текста */
+            font-weight: 600;
+            display: flex; flex-direction: column; align-items: center; 
+            gap: 6px; 
+            opacity: 0.6; 
+            transition: 0.2s;
+        }
+        
+        /* УВЕЛИЧЕННЫЕ ИКОНКИ ТАББАРА */
+        .nav-item i { font-size: 26px; } 
+        
         .nav-item.active { opacity: 1; color: var(--accent); }
     </style>
 </head>
@@ -202,23 +262,47 @@
     <button class="sign-in-btn">SIGN IN</button>
 </header>
 
-<div class="movie-grid">
-    <div class="movie-card">
-        <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Inside Out 2</div>
-        <button class="play-btn">WATCH NOW</button>
+<div class="main-content">
+    
+    <div class="continue-widget">
+        <div class="widget-poster">
+            <i class="fas fa-pause"></i> </div>
+        <div class="widget-info">
+            <div class="widget-title">Inside Out 2</div>
+            <div class="widget-subtitle">1h 12m remaining</div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
     </div>
-    <div class="movie-card">
-        <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Deadpool 3</div>
-        <button class="play-btn">WATCH NOW</button>
-    </div>
-</div>
 
-<nav class="bottom-nav">
-    <a href="#" class="nav-item active"><i class="fas fa-home" style="font-size: 20px;"></i><span>Home</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-fire" style="font-size: 20px;"></i><span>Trends</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-bookmark" style="font-size: 20px;"></i><span>Saved</span></a>
+    <div class="movie-grid">
+        <div class="movie-card">
+            <div class="poster-area"><i class="fas fa-play"></i></div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Inside Out 2</div>
+            <button class="play-btn">WATCH NOW</button>
+        </div>
+        <div class="movie-card">
+            <div class="poster-area"><i class="fas fa-play"></i></div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Deadpool 3</div>
+            <button class="play-btn">WATCH NOW</button>
+        </div>
+        <div class="movie-card">
+            <div class="poster-area"><i class="fas fa-play"></i></div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Dune: Part Two</div>
+            <button class="play-btn">WATCH NOW</button>
+        </div>
+        <div class="movie-card">
+            <div class="poster-area"><i class="fas fa-play"></i></div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Furiosa</div>
+            <button class="play-btn">WATCH NOW</button>
+        </div>
+    </div>
+
+</div> <nav class="bottom-nav">
+    <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-fire"></i><span>Trends</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-bookmark"></i><span>Saved</span></a>
 </nav>
 
 <script>
@@ -226,19 +310,16 @@
     const closeBtn = document.getElementById('closeMenu');
     const sideMenu = document.getElementById('sideMenu');
 
-    // Открыть
     openBtn.addEventListener('click', () => {
         sideMenu.classList.add('active');
         document.body.style.overflow = 'hidden'; // Запрет скролла
     });
 
-    // Закрыть
     closeBtn.addEventListener('click', () => {
         sideMenu.classList.remove('active');
         document.body.style.overflow = ''; 
     });
 
-    // Закрыть кликом по фону
     window.addEventListener('click', (e) => {
         if (e.target === sideMenu) {
             sideMenu.classList.remove('active');
