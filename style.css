@@ -1,12 +1,12 @@
-/* --- СТИЛИ БУРГЕР-МЕНЮ (ОСТРОВОК) --- */
+/* --- ДИЗАЙН МЕНЮ (STYLE.CSS) --- */
 
 .side-menu-island {
     position: fixed; 
     top: 110px; 
-    left: -70%; 
+    left: -75%; 
     width: 62%; 
     height: auto; 
-    background: rgba(120, 10, 45, 0.98); /* Тот самый темный цвет */
+    background: rgba(120, 10, 45, 0.98); 
     backdrop-filter: blur(25px);
     z-index: 2000;
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -16,19 +16,11 @@
     margin-left: 15px;
 }
 
-/* Когда меню активно */
-.side-menu-island.active { 
-    left: 0; 
-}
+.side-menu-island.active { left: 0; }
 
-/* Навигация внутри меню */
-.menu-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
+.menu-nav { display: flex; flex-direction: column; gap: 16px; }
 
-/* Шрифт как на кнопках WATCH NOW */
+/* Тот самый жирный шрифт */
 .menu-nav a {
     color: white; 
     text-decoration: none; 
@@ -41,7 +33,7 @@
     gap: 12px;
 }
 
-/* Лаймовые квадраты (иконки стоят ПРЯМО) */
+/* Прямые иконки в лаймовых квадратах */
 .menu-nav a i {
     width: 34px; 
     height: 34px; 
@@ -56,7 +48,5 @@
     font-style: normal !important;
 }
 
-/* Дизайнерские полоски бургера */
-.burger-btn span:nth-child(2) { 
-    width: 65% !important; 
-}
+/* Укороченная средняя полоска бургера */
+.burger-btn span:nth-child(2) { width: 65% !important; }
