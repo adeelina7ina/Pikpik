@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PiKPiK</title>
+    <title>PiKPiK — Cinema</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { font-family: -apple-system, BlinkMacSystemFont, sans-serif; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -15,57 +15,35 @@
         .main-header { padding: 55px 20px 15px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: var(--bg-color); }
         .logo-img { height: 32px; width: auto; }
 
-        .burger-btn { display: flex; flex-direction: column; gap: 5px; width: 22px; cursor: pointer; border: none; background: none; outline: none; }
+        .burger-btn { display: flex; flex-direction: column; gap: 5px; width: 22px; cursor: pointer; border: none; background: none; }
         .burger-btn span { display: block; width: 100%; height: 3px; background: #fff; border-radius: 10px; }
         .burger-btn span:nth-child(2) { width: 65%; }
 
         .auth-btn { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 25px; font-weight: 900; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
         .verify-badge { color: #42a5f5; font-size: 14px; }
 
-        /* GRID */
+        /* MOVIE GRID */
         .movie-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; margin-top: 110px; }
         .movie-card { background: var(--glass); border-radius: 35px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        
         .poster-area { width: 100%; aspect-ratio: 1/1.4; background: rgba(0,0,0,0.1); border-radius: 28px; margin-bottom: 10px; overflow: hidden; }
         .poster-area img { width: 100%; height: 100%; object-fit: cover; }
-
         .movie-title { font-weight: 800; font-size: 14px; margin-bottom: 12px; display: block; height: 34px; overflow: hidden; }
-        .watch-btn { background: var(--accent); color: #000; border: none; width: 100%; padding: 12px; border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase; }
+        .watch-btn { background: var(--accent); color: #000; border: none; width: 100%; padding: 12px; border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase; cursor: pointer; }
 
-        /* УВЕЛИЧЕННОЕ НИЖНЕЕ МЕНЮ */
-        .bottom-nav { 
-            position: fixed; 
-            bottom: 30px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            width: 90%; 
-            background: rgba(255, 255, 255, 0.2); 
-            backdrop-filter: blur(25px); 
-            border-radius: 50px; 
-            display: flex; 
-            justify-content: space-around; 
-            padding: 22px 0; /* Увеличила высоту здесь */
-            border: 1px solid rgba(255,255,255,0.25); 
-            z-index: 1000; 
-        }
-        .nav-item { 
-            color: #fff; 
-            text-decoration: none; 
-            font-size: 13px; /* Текст крупнее */
-            font-weight: 700; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 8px; 
-            opacity: 0.5; 
-        }
+        /* BOTTOM NAV */
+        .bottom-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 92%; background: rgba(255,255,255,0.2); backdrop-filter: blur(25px); border-radius: 50px; display: flex; justify-content: space-around; padding: 20px 0; border: 1px solid rgba(255,255,255,0.25); z-index: 1000; }
+        .nav-item { color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.5; border: none; background: none; }
         .nav-item.active { opacity: 1; color: var(--accent); }
-        .nav-item i { font-size: 24px; /* Иконки крупнее */ }
+        .nav-item i { font-size: 22px; }
 
         /* MODALS */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        .modal-content { background: #8a0c3b; width: 85%; padding: 30px; border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .modal-input { width: 100%; background: rgba(0,0,0,0.2); color: #fff; border: none; padding: 16px; border-radius: 18px; margin-bottom: 12px; outline: none; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .modal-content { background: #8a0c3b; width: 90%; padding: 25px; border-radius: 40px; text-align: center; position: relative; }
+        
+        /* ПЛЕЕР */
+        #videoPlayer { width: 100%; aspect-ratio: 16/9; border-radius: 20px; border: none; }
+
+        .close-player { position: absolute; top: -40px; right: 10px; color: #fff; font-size: 24px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -80,50 +58,65 @@
 </header>
 
 <div class="movie-grid">
-    <div class="movie-card"><div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvRIoYzbQ.jpg"></div><span class="movie-title">Inside Out 2</span><button class="watch-btn">Watch Now</button></div>
-    <div class="movie-card"><div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/8Y43TsYvjUdtC2p3zJp9v07VpPL.jpg"></div><span class="movie-title">Deadpool 3</span><button class="watch-btn">Watch Now</button></div>
-    <div class="movie-card"><div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/n997U9p9W7Yf6Z86Ex96C9C9n9C.jpg"></div><span class="movie-title">Moana 2</span><button class="watch-btn">Watch Now</button></div>
-    <div class="movie-card"><div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/18wo7fS6pX2vI7S3D90yD9PzVpL.jpg"></div><span class="movie-title">Joker 2</span><button class="watch-btn">Watch Now</button></div>
+    <div class="movie-card">
+        <div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvRIoYzbQ.jpg"></div>
+        <span class="movie-title">Inside Out 2</span>
+        <button class="watch-btn" onclick="playMovie('https://www.youtube.com/embed/LEjhY1p8tS0')">Watch Now</button>
+    </div>
+
+    <div class="movie-card">
+        <div class="poster-area"><img src="https://image.tmdb.org/t/p/w500/8Y43TsYvjUdtC2p3zJp9v07VpPL.jpg"></div>
+        <span class="movie-title">Deadpool 3</span>
+        <button class="watch-btn" onclick="playMovie('https://www.youtube.com/embed/73_1biulkYk')">Watch Now</button>
+    </div>
+
+    </div>
+
+<div class="modal" id="videoModal">
+    <div class="modal-content">
+        <span class="close-player" onclick="closePlayer()">&times; CLOSE</span>
+        <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    </div>
 </div>
 
 <div class="modal" id="authModal">
     <div class="modal-content">
         <h2>Welcome</h2>
-        <input type="text" id="nameInp" class="modal-input" placeholder="Your Name">
-        <button class="watch-btn" style="font-size:16px" onclick="doLogin()">Login</button>
-        <p onclick="closeModals()" style="margin-top:20px; cursor:pointer; opacity:0.5">CLOSE</p>
-    </div>
-</div>
-
-<div class="modal" id="menuModal">
-    <div class="modal-content">
-        <h2>Menu</h2>
-        <p>Settings • Profile • Search</p>
-        <button class="watch-btn" onclick="closeModals()">Back</button>
+        <input type="text" id="nameInp" style="width:100%; padding:15px; border-radius:15px; border:none; margin-bottom:10px" placeholder="Your Name">
+        <button class="watch-btn" onclick="doLogin()">Login</button>
     </div>
 </div>
 
 <nav class="bottom-nav">
-    <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-bolt"></i><span>Trends</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-bookmark"></i><span>Saved</span></a>
+    <button class="nav-item active"><i class="fas fa-home"></i><span>Home</span></button>
+    <button class="nav-item"><i class="fas fa-bolt"></i><span>Trends</span></button>
+    <button class="nav-item"><i class="fas fa-bookmark"></i><span>Saved</span></button>
 </nav>
 
 <script>
-    function openMenu() { document.getElementById('menuModal').style.display = 'flex'; }
-    function closeModals() { 
-        document.getElementById('authModal').style.display = 'none'; 
-        document.getElementById('menuModal').style.display = 'none'; 
+    function playMovie(url) {
+        document.getElementById('videoPlayer').src = url;
+        document.getElementById('videoModal').style.display = 'flex';
     }
+
+    function closePlayer() {
+        document.getElementById('videoModal').style.display = 'none';
+        document.getElementById('videoPlayer').src = '';
+    }
+
+    function openMenu() { alert('Меню работает!'); }
+
     function toggleAuth() {
         const user = localStorage.getItem('pName');
         if(user) { localStorage.removeItem('pName'); location.reload(); }
         else { document.getElementById('authModal').style.display = 'flex'; }
     }
+
     function doLogin() {
         const name = document.getElementById('nameInp').value;
         if(name) { localStorage.setItem('pName', name); location.reload(); }
     }
+
     window.onload = () => {
         const savedName = localStorage.getItem('pName');
         if(savedName) {
@@ -132,6 +125,5 @@
         }
     };
 </script>
-
 </body>
 </html>
