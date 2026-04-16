@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PikPik — Refined Design with Widget</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>PikPik — Smart Interface</title>
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     <style>
-        /* БАЗОВЫЕ НАСТРОЙКИ */
         * {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             box-sizing: border-box;
@@ -14,9 +13,9 @@
         }
 
         :root {
-            --bg-color: #E30B5D; /* Твой малиновый */
-            --accent: #BFFF00;   /* Лаймовый */
-            --menu-bg: rgba(176, 14, 68, 0.98);
+            --bg-color: #E30B5D;
+            --accent: #BFFF00;
+            --glass: rgba(255, 255, 255, 0.15);
         }
 
         body {
@@ -24,7 +23,7 @@
             color: #fff;
             margin: 0; padding: 0;
             overflow-x: hidden;
-            padding-bottom: 150px; /* Больше места для увеличенного таббара */
+            padding-bottom: 120px;
         }
 
         /* ШАПКА */
@@ -33,299 +32,193 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: var(--bg-color);
             position: fixed;
             top: 0; left: 0; width: 100%;
             z-index: 1000;
+            background-color: var(--bg-color);
         }
 
         .burger-btn {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            width: 25px;
-            cursor: pointer;
+            display: flex; flex-direction: column; gap: 5px; width: 25px; cursor: pointer;
         }
-        .burger-btn span {
-            width: 100%; height: 2.5px;
-            background: #fff;
-            border-radius: 10px;
-        }
+        .burger-btn span { width: 100%; height: 2px; background: #fff; border-radius: 10px; }
 
-        .logo-container img {
-            height: 35px;
-            width: auto;
-        }
+        .logo-container img { height: 35px; }
 
         .sign-in-btn {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 800;
-            font-size: 11px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: var(--accent); color: #000; border: none; padding: 8px 16px;
+            border-radius: 20px; font-weight: 800; font-size: 11px; text-transform: uppercase;
         }
 
-        /* БОКОВОЕ МЕНЮ */
+        /* БОКОВОЕ МЕНЮ (Элегантные иконки) */
         .side-menu {
-            position: fixed;
-            top: 0; left: -55%;
-            width: 55%; height: 100%;
-            background: var(--menu-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            z-index: 2000;
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 100px 20px;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0 40px 40px 0;
-            box-shadow: 10px 0 30px rgba(0,0,0,0.3);
+            position: fixed; top: 0; left: -75%; width: 75%; height: 100%;
+            background: rgba(140, 10, 50, 0.98); backdrop-filter: blur(20px);
+            z-index: 2000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 100px 30px; border-radius: 0 40px 40px 0;
         }
-
         .side-menu.active { left: 0; }
 
-        .close-btn {
-            position: absolute;
-            top: 50px; right: 25px;
-            font-size: 30px; color: white;
-            cursor: pointer;
-        }
-
-        .menu-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
+        .menu-nav { display: flex; flex-direction: column; gap: 25px; }
         .menu-nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            color: white; text-decoration: none; font-size: 17px; font-weight: 600;
+            display: flex; align-items: center; gap: 15px;
         }
-
-        /* ОБНОВЛЕННЫЕ «ЧИСТЫЕ» САЛАТОВЫЕ ИКОНКИ (ДЛЯ МЕНЮ) */
         .menu-nav a i {
-            width: 32px; height: 32px;
-            background-color: var(--accent);
-            border-radius: 10px; /* Квадратик */
-            display: flex; align-items: center; justify-content: center;
-            color: #000; font-size: 14px;
-            
-            /* Убрали лишний объем, оставили только мягкую тень */
-            box-shadow: 
-                inset 0 -1px 3px rgba(0,0,0,0.1),
-                inset 0 1px 3px rgba(255,255,255,0.2),
-                0 4px 10px rgba(0,0,0,0.15);
+            width: 38px; height: 38px; background: var(--accent); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; color: #000; font-size: 18px;
         }
 
-        /* ИКОНКИ ДЛЯ СТИКЕРОВ */
-        .s-cat::before { content: "\f5fd"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .s-mov::before { content: "\f145"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .s-ser::before { content: "\f26c"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .s-new::before { content: "\f06d"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .s-fav::before { content: "\f005"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-        .s-set::before { content: "\f013"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
-
-        /* КОНТЕНТ — КОНТЕЙНЕР ДЛЯ СДВИГА */
-        .main-content {
-            padding-top: 135px; /* Базовый отступ от хедера */
-        }
-
-        /* ВИДЖЕТ «CONTINUE WATCHING» */
-        .continue-widget {
-            margin: 0 20px 25px; /* Отступы по бокам и снизу */
-            background: rgba(255, 255, 255, 0.12);
+        /* ВИДЖЕТ (Скрыт по умолчанию) */
+        #continueWidget {
+            margin: 130px 20px 20px;
+            background: var(--glass);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 20px;
+            border-radius: 22px;
             padding: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            display: none; /* Скрываем */
+            align-items: center; gap: 15px;
             position: relative;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .widget-poster {
-            width: 60px; height: 60px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
+            width: 50px; height: 50px; background: rgba(0,0,0,0.2); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; color: var(--accent);
         }
-        .widget-poster i { color: var(--accent); font-size: 24px; opacity: 0.8; }
-
         .widget-info { flex-grow: 1; }
-        .widget-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-        .widget-subtitle { font-size: 11px; opacity: 0.7; margin-bottom: 8px; }
+        .widget-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+        .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .progress-fill { width: 55%; height: 100%; background: var(--accent); }
 
-        /* Прогресс-бар */
-        .progress-container {
-            width: 100%; height: 4px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-bar {
-            width: 65%; /* Насколько просмотрено */
-            height: 100%;
-            background-color: var(--accent);
-        }
+        .close-widget { position: absolute; top: 12px; right: 15px; opacity: 0.5; font-size: 20px; cursor: pointer; }
 
-        /* КОНТЕНТ */
+        /* СЕТКА ФИЛЬМОВ */
         .movie-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            padding: 0 20px 20px; 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 20px; 
+            transition: 0.4s;
         }
-        
-        .movie-card {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
+        /* Если виджета нет, подтягиваем сетку выше */
+        .no-widget-margin { margin-top: 130px; }
 
-        .poster-area {
-            width: 100%; aspect-ratio: 2/3;
-            background: rgba(0,0,0,0.2);
-            border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 12px;
+        .movie-card {
+            background: var(--glass); border-radius: 28px; padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;
         }
-        .poster-area i { color: var(--accent); font-size: 35px; }
+        .poster-area {
+            width: 100%; aspect-ratio: 2/3; background: rgba(0,0,0,0.2); border-radius: 22px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
+        }
+        .poster-area i { color: var(--accent); font-size: 40px; }
 
         .play-btn {
-            background: var(--accent);
-            color: #000; border: none; width: 100%; padding: 12px;
-            border-radius: 15px; font-weight: 900; font-size: 11px;
-            text-transform: uppercase;
+            background: var(--accent); color: #000; border: none; width: 100%; padding: 12px;
+            border-radius: 16px; font-weight: 800; font-size: 11px; text-transform: uppercase;
         }
 
-        /* НИЖНЯЯ ПАНЕЛЬ (УВЕЛИЧЕННАЯ) */
+        /* ТАББАР */
         .bottom-nav {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 88%; background: rgba(255, 255, 255, 0.15); 
-            backdrop-filter: blur(20px); border-radius: 100px;
-            display: flex; justify-content: space-around; 
-            padding: 18px 0; /* Увеличили высоту панели */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 999;
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: 90%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px);
+            border-radius: 40px; display: flex; justify-content: space-around; padding: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.15); z-index: 1000;
         }
-        
-        .nav-item { 
-            color: #fff; text-decoration: none; 
-            font-size: 13px; /* Увеличили шрифт текста */
-            font-weight: 600;
-            display: flex; flex-direction: column; align-items: center; 
-            gap: 6px; 
-            opacity: 0.6; 
-            transition: 0.2s;
-        }
-        
-        /* УВЕЛИЧЕННЫЕ ИКОНКИ ТАББАРА */
-        .nav-item i { font-size: 26px; } 
-        
+        .nav-item { color: #fff; text-decoration: none; font-size: 11px; display: flex; flex-direction: column; align-items: center; gap: 5px; opacity: 0.5; }
+        .nav-item i { font-size: 24px; }
         .nav-item.active { opacity: 1; color: var(--accent); }
     </style>
 </head>
 <body>
 
 <div class="side-menu" id="sideMenu">
-    <div class="close-btn" id="closeMenu">&times;</div>
     <nav class="menu-nav">
-        <a href="#"><i class="s-cat"></i>Categories</a>
-        <a href="#"><i class="s-mov"></i>Movies</a>
-        <a href="#"><i class="s-ser"></i>TV Series</a>
-        <a href="#"><i class="s-new"></i>New</a>
-        <a href="#"><i class="s-fav"></i>Watchlist</a>
-        <a href="#"><i class="s-set"></i>Settings</a>
+        <a href="#"><i class="lnr lnr-layers"></i>Categories</a>
+        <a href="#"><i class="lnr lnr-film-play"></i>Movies</a>
+        <a href="#"><i class="lnr lnr-screen"></i>TV Series</a>
+        <a href="#"><i class="lnr lnr-rocket"></i>New</a>
+        <a href="#"><i class="lnr lnr-bookmark"></i>Watchlist</a>
+        <a href="#"><i class="lnr lnr-cog"></i>Settings</a>
     </nav>
 </div>
 
 <header class="main-header">
-    <div class="burger-btn" id="openMenu">
-        <span></span><span></span><span></span>
-    </div>
-    <div class="logo-container">
-        <img src="10643A89-D363-4E58-8E4E-EF64184C9075.png" alt="PikPik">
-    </div>
+    <div class="burger-btn" id="openMenu"><span></span><span></span><span></span></div>
+    <div class="logo-container"><img src="10643A89-D363-4E58-8E4E-EF64184C9075.png" alt="PikPik"></div>
     <button class="sign-in-btn">SIGN IN</button>
 </header>
 
-<div class="main-content">
-    
-    <div class="continue-widget">
-        <div class="widget-poster">
-            <i class="fas fa-pause"></i> </div>
-        <div class="widget-info">
-            <div class="widget-title">Inside Out 2</div>
-            <div class="widget-subtitle">1h 12m remaining</div>
-            <div class="progress-container">
-                <div class="progress-bar"></div>
-            </div>
-        </div>
+<div id="continueWidget">
+    <div class="close-widget" id="hideWidget">&times;</div>
+    <div class="widget-poster"><i class="lnr lnr-pause"></i></div>
+    <div class="widget-info">
+        <div class="widget-title" id="activeMovieTitle">Inside Out 2</div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
+</div>
 
-    <div class="movie-grid">
-        <div class="movie-card">
-            <div class="poster-area"><i class="fas fa-play"></i></div>
-            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Inside Out 2</div>
-            <button class="play-btn">WATCH NOW</button>
-        </div>
-        <div class="movie-card">
-            <div class="poster-area"><i class="fas fa-play"></i></div>
-            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Deadpool 3</div>
-            <button class="play-btn">WATCH NOW</button>
-        </div>
-        <div class="movie-card">
-            <div class="poster-area"><i class="fas fa-play"></i></div>
-            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Dune: Part Two</div>
-            <button class="play-btn">WATCH NOW</button>
-        </div>
-        <div class="movie-card">
-            <div class="poster-area"><i class="fas fa-play"></i></div>
-            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Furiosa</div>
-            <button class="play-btn">WATCH NOW</button>
-        </div>
+<div class="movie-grid no-widget-margin" id="movieGrid">
+    <div class="movie-card">
+        <div class="poster-area"><i class="lnr lnr-play"></i></div>
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Inside Out 2</div>
+        <button class="play-btn" onclick="startWatching('Inside Out 2')">WATCH NOW</button>
     </div>
+    <div class="movie-card">
+        <div class="poster-area"><i class="lnr lnr-play"></i></div>
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Deadpool 3</div>
+        <button class="play-btn" onclick="startWatching('Deadpool 3')">WATCH NOW</button>
+    </div>
+    <div class="movie-card">
+        <div class="poster-area"><i class="lnr lnr-play"></i></div>
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Dune: Part 2</div>
+        <button class="play-btn" onclick="startWatching('Dune: Part 2')">WATCH NOW</button>
+    </div>
+    <div class="movie-card">
+        <div class="poster-area"><i class="lnr lnr-play"></i></div>
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Furiosa</div>
+        <button class="play-btn" onclick="startWatching('Furiosa')">WATCH NOW</button>
+    </div>
+</div>
 
-</div> <nav class="bottom-nav">
-    <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-fire"></i><span>Trends</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-bookmark"></i><span>Saved</span></a>
+<nav class="bottom-nav">
+    <a href="#" class="nav-item active"><i class="lnr lnr-home"></i><span>Home</span></a>
+    <a href="#" class="nav-item"><i class="lnr lnr-fire"></i><span>Trends</span></a>
+    <a href="#" class="nav-item"><i class="lnr lnr-heart"></i><span>Saved</span></a>
 </nav>
 
 <script>
-    const openBtn = document.getElementById('openMenu');
-    const closeBtn = document.getElementById('closeMenu');
     const sideMenu = document.getElementById('sideMenu');
+    const widget = document.getElementById('continueWidget');
+    const grid = document.getElementById('movieGrid');
+    const activeTitle = document.getElementById('activeMovieTitle');
 
-    openBtn.addEventListener('click', () => {
-        sideMenu.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Запрет скролла
-    });
+    // Открыть меню
+    document.getElementById('openMenu').onclick = () => sideMenu.classList.toggle('active');
 
-    closeBtn.addEventListener('click', () => {
-        sideMenu.classList.remove('active');
-        document.body.style.overflow = ''; 
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === sideMenu) {
+    // Закрыть меню при клике на контент
+    window.onclick = (e) => {
+        if (!e.target.closest('.side-menu') && !e.target.closest('.burger-btn')) {
             sideMenu.classList.remove('active');
-            document.body.style.overflow = '';
         }
-    });
+    };
+
+    // Логика появления виджета
+    function startWatching(title) {
+        activeTitle.innerText = title;
+        widget.style.display = 'flex';
+        grid.classList.remove('no-widget-margin');
+    }
+
+    // Закрыть виджет
+    document.getElementById('hideWidget').onclick = () => {
+        widget.style.display = 'none';
+        grid.classList.add('no-widget-margin');
+    };
 </script>
 
 </body>
