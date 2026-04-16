@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PikPik — Classic Bottom Nav</title>
+    <title>PikPik — Final Version</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     
     <style>
         * {
@@ -18,6 +17,7 @@
             --bg-color: #E30B5D;
             --accent: #BFFF00;
             --glass: rgba(255, 255, 255, 0.15);
+            --menu-bg: rgba(120, 10, 45, 0.98);
         }
 
         body {
@@ -25,10 +25,10 @@
             color: #fff;
             margin: 0; padding: 0;
             overflow-x: hidden;
-            padding-bottom: 150px;
+            padding-bottom: 160px;
         }
 
-        /* ШАПКА */
+        /* ХЕДЕР */
         .main-header {
             padding: 55px 20px 15px;
             display: flex;
@@ -40,89 +40,121 @@
             background-color: var(--bg-color);
         }
 
-        .burger-btn { display: flex; flex-direction: column; gap: 5px; width: 25px; }
-        .burger-btn span { width: 100%; height: 2px; background: #fff; border-radius: 10px; }
+        /* СТИЛЬНЫЙ БУРГЕР */
+        .burger-btn { 
+            display: flex; flex-direction: column; gap: 5px; width: 22px; cursor: pointer;
+        }
+        .burger-btn span { 
+            display: block; width: 100%; height: 3px; background: #fff; border-radius: 10px; 
+        }
+        .burger-btn span:nth-child(2) { width: 65%; } /* Средняя линия короче */
+
         .logo-container img { height: 35px; }
         .sign-in-btn {
-            background: var(--accent); color: #000; border: none; padding: 8px 16px;
-            border-radius: 20px; font-weight: 800; font-size: 11px; text-transform: uppercase;
+            background: var(--accent); color: #000; border: none; padding: 8px 18px;
+            border-radius: 20px; font-weight: 900; font-size: 11px; text-transform: uppercase;
         }
 
-        /* БОКОВОЕ МЕНЮ */
+        /* МЕНЮ-ОСТРОВОК (КОРОТКОЕ И УЗКОЕ) */
         .side-menu {
-            position: fixed; top: 0; left: -75%; width: 75%; height: 100%;
-            background: rgba(140, 10, 50, 0.98); backdrop-filter: blur(20px);
-            z-index: 2000; transition: 0.4s ease;
-            padding: 100px 30px; border-radius: 0 40px 40px 0;
+            position: fixed; 
+            top: 110px; 
+            left: -65%; 
+            width: 62%; 
+            height: auto; 
+            background: var(--menu-bg);
+            backdrop-filter: blur(25px);
+            z-index: 2000; 
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 25px 20px;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-left: 15px;
         }
         .side-menu.active { left: 0; }
 
-        .menu-nav { display: flex; flex-direction: column; gap: 25px; }
+        .menu-nav { display: flex; flex-direction: column; gap: 16px; }
+        
+        /* ШРИФТ В МЕНЮ (КАК НА КНОПКАХ WATCH NOW) */
         .menu-nav a {
-            color: white; text-decoration: none; font-size: 17px; font-weight: 600;
-            display: flex; align-items: center; gap: 15px;
-        }
-        /* Стикеры в меню */
-        .menu-nav a i {
-            width: 38px; height: 38px; background: var(--accent); border-radius: 12px;
-            display: flex; align-items: center; justify-content: center; color: #000;
+            color: white; 
+            text-decoration: none; 
+            font-size: 11px; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            letter-spacing: 0.8px;
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+            transform: none !important; /* Убираем наклоны */
         }
 
-        /* ВИДЖЕТ (Скрыт по умолчанию) */
+        /* ПРЯМЫЕ ИКОНКИ ВНУТРИ КВАДРАТОВ */
+        .menu-nav a i {
+            width: 34px; 
+            height: 34px; 
+            background: var(--accent); 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #000; 
+            font-size: 14px;
+            /* Полное выпрямление */
+            transform: none !important; 
+            font-style: normal !important;
+            filter: none !important;
+        }
+
+        /* ВИДЖЕТ (ПОЯВЛЯЕТСЯ ПРИ КЛИКЕ) */
         #continueWidget {
             margin: 130px 20px 20px;
             background: var(--glass);
             backdrop-filter: blur(15px);
-            border-radius: 22px;
-            padding: 15px;
+            border-radius: 25px;
+            padding: 18px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: none; 
-            align-items: center; gap: 15px;
-            position: relative;
+            align-items: center; gap: 15px; position: relative;
         }
-
-        .widget-poster {
-            width: 50px; height: 50px; background: rgba(0,0,0,0.2); border-radius: 12px;
-            display: flex; align-items: center; justify-content: center; color: var(--accent);
-        }
-        .widget-info { flex-grow: 1; }
-        .widget-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-        .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
-        .progress-fill { width: 45%; height: 100%; background: var(--accent); }
-
-        .close-widget { position: absolute; top: 10px; right: 15px; opacity: 0.5; font-size: 24px; }
+        .widget-poster { width: 55px; height: 55px; background: rgba(0,0,0,0.2); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+        .progress-bar { width: 100%; height: 5px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 8px; overflow: hidden; }
+        .progress-fill { width: 60%; height: 100%; background: var(--accent); }
+        .close-widget { position: absolute; top: 12px; right: 18px; opacity: 0.5; font-size: 22px; cursor: pointer; }
 
         /* СЕТКА ФИЛЬМОВ */
         .movie-grid { 
             display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 20px; 
+            margin-top: 130px; transition: 0.3s;
         }
-        .no-widget-margin { margin-top: 130px; }
+        .no-top-space { margin-top: 20px; }
 
         .movie-card {
-            background: var(--glass); border-radius: 28px; padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;
+            background: var(--glass); border-radius: 30px; padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1); text-align: center;
         }
         .poster-area {
             width: 100%; aspect-ratio: 2/3; background: rgba(0,0,0,0.2); border-radius: 22px;
             display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
+            color: var(--accent); font-size: 40px;
         }
-        .poster-area i { color: var(--accent); font-size: 40px; }
-
+        
+        /* КНОПКА WATCH NOW */
         .play-btn {
-            background: var(--accent); color: #000; border: none; width: 100%; padding: 12px;
-            border-radius: 16px; font-weight: 800; font-size: 11px; text-transform: uppercase;
+            background: var(--accent); color: #000; border: none; width: 100%; padding: 14px;
+            border-radius: 18px; font-weight: 900; font-size: 11px; text-transform: uppercase;
         }
 
-        /* ТАББАР (ВОЗВРАЩАЕМ ТВОЙ СТИЛЬ) */
+        /* ТАББАР (ТВОЙ ЛЮБИМЫЙ) */
         .bottom-nav {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
             width: 88%; background: rgba(255, 255, 255, 0.15); 
-            backdrop-filter: blur(20px); border-radius: 100px;
+            backdrop-filter: blur(25px); border-radius: 100px;
             display: flex; justify-content: space-around; padding: 18px 0;
             border: 1px solid rgba(255, 255, 255, 0.2); z-index: 999;
         }
-        .nav-item { color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.6; }
-        .nav-item i { font-size: 26px; } /* Жирные иконки, как были */
+        .nav-item { color: #fff; text-decoration: none; font-size: 12px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.6; }
+        .nav-item i { font-size: 26px; }
         .nav-item.active { opacity: 1; color: var(--accent); }
     </style>
 </head>
@@ -130,18 +162,18 @@
 
 <div class="side-menu" id="sideMenu">
     <nav class="menu-nav">
-        <a href="#"><i class="lnr lnr-layers"></i>Categories</a>
-        <a href="#"><i class="lnr lnr-film-play"></i>Movies</a>
-        <a href="#"><i class="lnr lnr-screen"></i>TV Series</a>
-        <a href="#"><i class="lnr lnr-rocket"></i>New</a>
-        <a href="#"><i class="lnr lnr-bookmark"></i>Watchlist</a>
-        <a href="#"><i class="lnr lnr-cog"></i>Settings</a>
+        <a href="#"><i class="fas fa-layer-group"></i>Categories</a>
+        <a href="#"><i class="fas fa-ticket"></i>Movies</a>
+        <a href="#"><i class="fas fa-tv"></i>TV Series</a>
+        <a href="#"><i class="fas fa-fire"></i>New</a>
+        <a href="#"><i class="fas fa-star"></i>Watchlist</a>
+        <a href="#"><i class="fas fa-gear"></i>Settings</a>
     </nav>
 </div>
 
 <header class="main-header">
-    <div class="burger-btn" id="openMenu"><span></span><span></span><span></span></div>
-    <div class="logo-container"><img src="10643A89-D363-4E58-8E4E-EF64184C9075.png"></div>
+    <div class="burger-btn" id="openBtn"><span></span><span></span><span></span></div>
+    <div class="logo-container"><img src="10643A89-D363-4E58-8E4E-EF64184C9075.png" alt="PikPik"></div>
     <button class="sign-in-btn">SIGN IN</button>
 </header>
 
@@ -149,62 +181,66 @@
     <div class="close-widget" id="hideWidget">&times;</div>
     <div class="widget-poster"><i class="fas fa-pause"></i></div>
     <div class="widget-info">
-        <div class="widget-title" id="activeTitle">Inside Out 2</div>
+        <div style="font-size: 15px; font-weight: 800;" id="movieName">Inside Out 2</div>
         <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
 </div>
 
-<div class="movie-grid no-widget-margin" id="movieGrid">
+<div class="movie-grid" id="mainGrid">
     <div class="movie-card">
         <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Inside Out 2</div>
-        <button class="play-btn" onclick="startPlay('Inside Out 2')">WATCH NOW</button>
+        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px;">Inside Out 2</div>
+        <button class="play-btn" onclick="playMovie('Inside Out 2')">WATCH NOW</button>
     </div>
     <div class="movie-card">
         <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Deadpool 3</div>
-        <button class="play-btn" onclick="startPlay('Deadpool 3')">WATCH NOW</button>
+        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px;">Deadpool 3</div>
+        <button class="play-btn" onclick="playMovie('Deadpool 3')">WATCH NOW</button>
     </div>
     <div class="movie-card">
         <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Dune: Part 2</div>
-        <button class="play-btn" onclick="startPlay('Dune: Part 2')">WATCH NOW</button>
+        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px;">Dune: Part 2</div>
+        <button class="play-btn" onclick="playMovie('Dune: Part 2')">WATCH NOW</button>
     </div>
     <div class="movie-card">
         <div class="poster-area"><i class="fas fa-play"></i></div>
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Furiosa</div>
-        <button class="play-btn" onclick="startPlay('Furiosa')">WATCH NOW</button>
+        <div style="font-size: 13px; font-weight: 800; margin-bottom: 12px;">Furiosa</div>
+        <button class="play-btn" onclick="playMovie('Furiosa')">WATCH NOW</button>
     </div>
 </div>
 
 <nav class="bottom-nav">
     <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="#" class="nav-item"><i class="fas fa-fire"></i><span>Trends</span></a>
+    <a href="#" class="nav-item"><i class="fas fa-fire-alt"></i><span>Trends</span></a>
     <a href="#" class="nav-item"><i class="fas fa-bookmark"></i><span>Saved</span></a>
 </nav>
 
 <script>
     const sideMenu = document.getElementById('sideMenu');
     const widget = document.getElementById('continueWidget');
-    const grid = document.getElementById('movieGrid');
+    const grid = document.getElementById('mainGrid');
 
-    document.getElementById('openMenu').onclick = () => sideMenu.classList.add('active');
-    
-    window.onclick = (e) => {
-        if (!e.target.closest('.side-menu') && !e.target.closest('.burger-btn')) {
-            sideMenu.classList.remove('active');
-        }
+    // Открытие/закрытие меню
+    document.getElementById('openBtn').onclick = (e) => {
+        e.stopPropagation();
+        sideMenu.classList.toggle('active');
     };
 
-    function startPlay(title) {
-        document.getElementById('activeTitle').innerText = title;
+    // Закрытие кликом по фону
+    window.onclick = (e) => {
+        if (!e.target.closest('.side-menu')) sideMenu.classList.remove('active');
+    };
+
+    // Логика виджета
+    function playMovie(name) {
+        document.getElementById('movieName').innerText = name;
         widget.style.display = 'flex';
-        grid.classList.remove('no-widget-margin');
+        grid.classList.add('no-top-space');
     }
 
     document.getElementById('hideWidget').onclick = () => {
         widget.style.display = 'none';
-        grid.classList.add('no-widget-margin');
+        grid.classList.remove('no-top-space');
     };
 </script>
 
