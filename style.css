@@ -1,169 +1,25 @@
-/* --- ОСНОВНЫЕ ПЕРЕМЕННЫЕ --- */
-:root {
-    --bg-color: #E30B5D;    /* Твой основной розовый */
-    --accent: #BFFF00;      /* Яркий лаймовый */
-    --glass: rgba(255, 255, 255, 0.15);
-    --dark-menu: rgba(120, 10, 45, 0.98);
-}
-
-/* --- БОКОВОЕ МЕНЮ (ОСТРОВОК) --- */
+/* --- БОКОВОЕ МЕНЮ --- */
 .side-menu-island {
-    position: fixed; 
-    top: 110px; 
-    left: -75%; /* Спрятано за экраном */
-    width: 62%; 
-    height: auto; 
-    background: var(--dark-menu); 
-    backdrop-filter: blur(25px);
-    z-index: 2000;
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 25px 20px;
-    border-radius: 35px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    margin-left: 15px;
+    position: fixed; top: 110px; left: -75%; width: 62%; height: auto;
+    background: rgba(120, 10, 45, 0.98); backdrop-filter: blur(25px); z-index: 2000;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 25px 20px; border-radius: 35px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-left: 15px;
 }
+.side-menu-island.active { left: 0; }
+.menu-nav { display: flex; flex-direction: column; gap: 16px; }
+.menu-nav a { color: white; text-decoration: none; font-size: 11px; font-weight: 900; text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+.menu-nav a i { width: 34px; height: 34px; background: #BFFF00; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #000; transform: none !important; }
 
-/* Состояние, когда меню открыто (через JS) */
-.side-menu-island.active { 
-    left: 0; 
-}
+/* БУРГЕР */
+.burger-btn { display: flex; flex-direction: column; gap: 5px; width: 22px; cursor: pointer; }
+.burger-btn span { display: block; width: 100%; height: 3px; background: #fff; border-radius: 10px; }
+.burger-btn span:nth-child(2) { width: 65% !important; }
 
-/* Навигация внутри меню */
-.menu-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
+/* МОДАЛКИ */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+.modal-content { background: #780a2d; width: 85%; padding: 30px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); }
+.modal-input { width: 100%; background: rgba(255,255,255,0.1); color: white; border: none; padding: 15px; border-radius: 15px; margin-bottom: 10px; outline: none; }
+.action-btn { background: #BFFF00; color: #000; border: none; width: 100%; padding: 15px; border-radius: 20px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
 
-.menu-nav a {
-    color: white; 
-    text-decoration: none; 
-    font-size: 11px; 
-    font-weight: 900; 
-    text-transform: uppercase; 
-    letter-spacing: 0.8px;
-    display: flex; 
-    align-items: center; 
-    gap: 12px;
-}
-
-/* Прямые иконки в лаймовых квадратах */
-.menu-nav a i {
-    width: 34px; 
-    height: 34px; 
-    background: var(--accent); 
-    border-radius: 12px;
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    color: #000; 
-    font-size: 14px;
-    /* Убираем любой наклон шрифта иконок */
-    transform: none !important; 
-    font-style: normal !important;
-}
-
-/* --- СТИЛЬ КНОПКИ БУРГЕРА --- */
-.burger-btn {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 22px;
-    cursor: pointer;
-}
-
-.burger-btn span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background: #fff;
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-/* Укороченная средняя полоска, как на макете */
-.burger-btn span:nth-child(2) { 
-    width: 65% !important; 
-}
-
-/* --- МОДАЛЬНЫЕ ОКНА (РЕГИСТРАЦИЯ И НАСТРОЙКИ) --- */
-.modal {
-    display: none; 
-    position: fixed; 
-    top: 0; left: 0; 
-    width: 100%; height: 100%; 
-    background: rgba(0,0,0,0.85); 
-    z-index: 3000; 
-    align-items: center; 
-    justify-content: center; 
-    backdrop-filter: blur(15px);
-}
-
-.modal-content {
-    background: #780a2d; 
-    width: 85%; 
-    padding: 30px; 
-    border-radius: 40px; 
-    border: 1px solid var(--glass);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-.modal-input {
-    width: 100%; 
-    background: var(--glass); 
-    color: white; 
-    border: none; 
-    padding: 15px; 
-    border-radius: 15px; 
-    margin-bottom: 10px; 
-    outline: none;
-    font-weight: 600;
-}
-
-.modal-input::placeholder {
-    color: rgba(255,255,255,0.4);
-}
-
-/* Главная кнопка действий (Join Now / Save) */
-.action-btn {
-    background: var(--accent); 
-    color: #000; 
-    border: none; 
-    width: 100%; 
-    padding: 15px; 
-    border-radius: 20px; 
-    font-weight: 900; 
-    text-transform: uppercase; 
-    margin-top: 10px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.action-btn:active {
-    transform: scale(0.96);
-}
-
-/* Стили для элементов настроек */
-.setting-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.setting-item span {
-    font-size: 14px;
-    font-weight: 700;
-}
-
-/* Кастомный выпадающий список */
-.setting-select {
-    background: var(--glass);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 8px 12px;
-    font-size: 12px;
-    outline: none;
-}
+.setting-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.setting-select { background: rgba(255,255,255,0.1); color: white; border: none; border-radius: 10px; padding: 8px; font-size: 12px; outline: none; }
